@@ -1,4 +1,4 @@
-package business;
+package data;
 
 public class PersonalTrainer extends Utente {
     private int idP;

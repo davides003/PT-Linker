@@ -1,4 +1,4 @@
-package business;
+package data;
 
 public class Nutrizionista extends Utente {
     private int idN;

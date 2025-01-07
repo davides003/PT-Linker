@@ -1,4 +1,4 @@
-package business;
+package data;
 
 public class Utente {
     private String nome;

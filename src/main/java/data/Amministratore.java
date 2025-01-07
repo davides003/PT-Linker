@@ -1,4 +1,4 @@
-package business;
+package data;
 
 public class Amministratore extends Utente {
     private String username;

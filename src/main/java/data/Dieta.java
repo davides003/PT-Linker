@@ -1,11 +1,11 @@
-package business;
+package data;
 
-public class Scheda {
+public class Dieta {
     private String descrizione;
     private String note;
 
     // Costruttore
-    public Scheda(String descrizione, String note) {
+    public Dieta(String descrizione, String note) {
         setDescrizione(descrizione);
         setNote(note);
     }

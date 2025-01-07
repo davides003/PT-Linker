@@ -1,4 +1,4 @@
-package business;
+package data;
 
 public class Recensioni {
     private int idCliente;

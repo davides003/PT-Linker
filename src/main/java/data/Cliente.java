@@ -1,4 +1,4 @@
-package business;
+package data;
 
 public class Cliente extends Utente {
     private int idC;
