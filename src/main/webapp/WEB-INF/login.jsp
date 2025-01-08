@@ -141,13 +141,12 @@
 </head>
 <body>
 <div class="header">
-    <img src="logo.png" alt="Logo">
     <h1>PT-Linker</h1>
 </div>
 
 <div class="container">
     <h2>LOGIN</h2>
-    <form action="/login" method="post">
+    <form action="LoginServlet" method="post">
         <div class="form-group">
             <label for="email">E-Mail</label>
             <input type="email" id="email" name="email" required>
@@ -158,7 +157,7 @@
         </div>
         <button type="submit" class="btn">LOG</button>
     </form>
-    <a href="/registrazione" class="btn btn-secondary">Registrazione</a>
+    <a href="RegistrazioneServlet" class="btn btn-secondary">Registrazione</a>
 </div>
 </body>
 </html>

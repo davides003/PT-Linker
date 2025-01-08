@@ -14,7 +14,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Se il metodo è GET, l'utente sta cercando di navigare alla pagina di login
         // Quindi mostriamo il form di login
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
     }
 
     // Gestisce la raccolta dei dati dal form e la logica di login
@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         // Chiamare la logica di business per la validazione
-        BusinessLogic loginLogic = new BusinessLogic();
+        /*BusinessLogic loginLogic = new BusinessLogic();
         boolean isValid = loginLogic.verifyCredentials(username, password);
 
         if (isValid) {
@@ -35,6 +35,6 @@ public class LoginServlet extends HttpServlet {
             // Credenziali errate, visualizziamo un messaggio di errore
             request.setAttribute("errorMessage", "Username o password non validi");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
-        }
+        }*/
     }
 }
