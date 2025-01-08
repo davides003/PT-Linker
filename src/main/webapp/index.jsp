@@ -136,7 +136,7 @@
 <div class="header">
     <h1>PT-Linker</h1>
     <div class="user">
-        <a href="login.html"> <!-- Modifica qui per collegare alla pagina di login -->
+        <a href="login"> <!-- Modifica qui per collegare alla pagina di login -->
             <div class="icon"></div>
             <span>Accedi</span> <!-- Aggiunta della scritta "Accedi" -->
         </a>
