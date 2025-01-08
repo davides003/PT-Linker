@@ -144,7 +144,7 @@
 
 <div class="container">
     <h2>REGISTRAZIONE</h2>
-    <form>
+    <form action="RegistrazioneServlet" method="post">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
