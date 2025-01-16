@@ -1,12 +1,13 @@
 package data;
 
 public class Chat {
-    private int idMittente;
+    private int idMittente,idChat;
     private int idDestinatario;
     private String chat;
 
     // Costruttore con parametri
-    public Chat(int idMittente, int idDestinatario, String chat) {
+    public Chat(int idMittente, int idDestinatario, String chat, int idChat) {
+        this.idChat = idChat;
         setIdMittente(idMittente);
         setIdDestinatario(idDestinatario);
         setChat(chat);
@@ -44,6 +45,14 @@ public class Chat {
             throw new IllegalArgumentException("La chat non può essere vuota.");
         }
         this.chat = chat;
+    }
+
+    public int getIdChat() {
+        return idChat;
+    }
+
+    public void setIdChat(int idChat) {
+        this.idChat = idChat;
     }
 }
 

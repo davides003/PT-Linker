@@ -1,7 +1,6 @@
 package data;
 
 public class Cliente extends Utente {
-    private int idC;
     private float altezza;
     private float peso;
     private float larghezzaGirovita;
@@ -13,8 +12,7 @@ public class Cliente extends Utente {
 
     // Costruttore
     public Cliente(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idC, float altezza, float peso, float larghezzaGirovita, float circonferenzaBracciaDx, float circonferenzaBracciaSx, float circonferenzaTorace, float circonferenzaGambaDx, float circonferenzaGambaSx) {
-        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta);
-        setIdC(idC);
+        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta,idC);
         setAltezza(altezza);
         setPeso(peso);
         setLarghezzaGirovita(larghezzaGirovita);
@@ -23,18 +21,6 @@ public class Cliente extends Utente {
         setCirconferenzaTorace(circonferenzaTorace);
         setCirconferenzaGambaDx(circonferenzaGambaDx);
         setCirconferenzaGambaSx(circonferenzaGambaSx);
-    }
-
-    // Getters e Setters
-    public int getIdC() {
-        return idC;
-    }
-
-    public void setIdC(int idC) {
-        if (idC < 0) {
-            throw new IllegalArgumentException("ID Cliente non può essere negativo.");
-        }
-        this.idC = idC;
     }
 
     public float getAltezza() {

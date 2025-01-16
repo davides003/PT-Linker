@@ -1,36 +1,31 @@
 package data;
 
+import java.util.ArrayList;
+
 public class PersonalTrainer extends Utente {
-    private int idP;
-    private String attestati;
+    private ArrayList<String> attestati;
+    private boolean abilitato;
 
     // Costruttore
-    public PersonalTrainer(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idP, String attestati) {
-        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta);
-        setIdP(idP);
-        setAttestati(attestati);
+    public PersonalTrainer(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idP, ArrayList<String> attestati, boolean abilitato) {
+        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta, idP);
+        this.attestati = attestati;
+        this.abilitato = abilitato;
     }
 
-    // Getters e Setters
-    public int getIdP() {
-        return idP;
+    public boolean isAbilitato() {
+        return abilitato;
     }
 
-    public void setIdP(int idP) {
-        if (idP < 0) {
-            throw new IllegalArgumentException("ID Personal Trainer non può essere negativo.");
-        }
-        this.idP = idP;
+    public void setAbilitato(boolean abilitato) {
+        this.abilitato = abilitato;
     }
 
-    public String getAttestati() {
+    public ArrayList<String> getAttestati() {
         return attestati;
     }
 
-    public void setAttestati(String attestati) {
-        if (attestati == null || attestati.isEmpty()) {
-            throw new IllegalArgumentException("Gli attestati non possono essere vuoti.");
-        }
+    public void setAttestati(ArrayList<String> attestati) {
         this.attestati = attestati;
     }
 }

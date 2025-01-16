@@ -1,13 +1,14 @@
 package data;
 
 public class Progressi {
-    private int idCliente;
+    private int idCliente,idProgresso;
     private String foto;
     private String descrizione;
     private String misureCliente;
 
     // Costruttore
-    public Progressi(int idCliente, String foto, String descrizione, String misureCliente) {
+    public Progressi(int idCliente, String foto, String descrizione, String misureCliente, int idProgresso) {
+        this.idProgresso = idProgresso;
         setIdCliente(idCliente);
         setFoto(foto);
         setDescrizione(descrizione);
@@ -57,5 +58,13 @@ public class Progressi {
             throw new IllegalArgumentException("Le misure del cliente non possono essere vuote.");
         }
         this.misureCliente = misureCliente;
+    }
+
+    public int getIdProgresso() {
+        return idProgresso;
+    }
+
+    public void setIdProgresso(int idProgresso) {
+        this.idProgresso = idProgresso;
     }
 }

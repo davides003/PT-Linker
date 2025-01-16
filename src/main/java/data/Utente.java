@@ -5,12 +5,13 @@ public class Utente {
     private String cognome;
     private String email;
     private String indirizzo;
-    private int eta;
+    private int eta,id;
     private String recapitoTelefonico;
     private String citta;
 
     // Costruttore
-    public Utente(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta) {
+    public Utente(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int id) {
+        this.id = id;
         setNome(nome);
         setCognome(cognome);
         setEmail(email);
@@ -96,5 +97,13 @@ public class Utente {
             throw new IllegalArgumentException("La città non può essere vuota.");
         }
         this.citta = citta;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setIdU(int id) {
+        this.id = id;
     }
 }

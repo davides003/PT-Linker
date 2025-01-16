@@ -1,36 +1,31 @@
 package data;
 
+import java.util.ArrayList;
+
 public class Nutrizionista extends Utente {
-    private int idN;
-    private String certificati;
+    private ArrayList<String> certificati;
+    private boolean abilitato;
 
     // Costruttore
-    public Nutrizionista(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idN, String certificati) {
-        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta);
-        setIdN(idN);
-        setCertificati(certificati);
+    public Nutrizionista(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idN, ArrayList<String> certificati, boolean abilitato) {
+        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta, idN);
+        this.certificati = certificati;
+        this.abilitato = abilitato;
     }
 
-    // Getters e Setters
-    public int getIdN() {
-        return idN;
+    public boolean isAbilitato() {
+        return abilitato;
     }
 
-    public void setIdN(int idN) {
-        if (idN < 0) {
-            throw new IllegalArgumentException("ID Nutrizionista non può essere negativo.");
-        }
-        this.idN = idN;
+    public void setAbilitato(boolean abilitato) {
+        this.abilitato = abilitato;
     }
 
-    public String getCertificati() {
+    public ArrayList<String> getCertificati() {
         return certificati;
     }
 
-    public void setCertificati(String certificati) {
-        if (certificati == null || certificati.isEmpty()) {
-            throw new IllegalArgumentException("I certificati non possono essere vuoti.");
-        }
+    public void setCertificati(ArrayList<String> certificati) {
         this.certificati = certificati;
     }
 }

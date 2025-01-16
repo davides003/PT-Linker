@@ -3,10 +3,11 @@ package data;
 public class Recensioni {
     private int idCliente;
     private String descrizione;
-    private int idRecensito;
+    private int idRecensito,idRecensione;
 
     // Costruttore con parametri
-    public Recensioni(int idCliente, String descrizione, int idRecensito) {
+    public Recensioni(int idCliente, String descrizione, int idRecensito, int idRecensione) {
+        this.idRecensione = idRecensione;
         setIdCliente(idCliente);
         setDescrizione(descrizione);
         setIdRecensito(idRecensito);
@@ -44,5 +45,13 @@ public class Recensioni {
             throw new IllegalArgumentException("L'ID recensito deve essere un numero positivo.");
         }
         this.idRecensito = idRecensito;
+    }
+
+    public int getIdRecensione() {
+        return idRecensione;
+    }
+
+    public void setIdRecensione(int idRecensione) {
+        this.idRecensione = idRecensione;
     }
 }

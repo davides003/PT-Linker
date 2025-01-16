@@ -3,9 +3,11 @@ package data;
 public class Dieta {
     private String descrizione;
     private String note;
+    private int idDieta;
 
     // Costruttore
-    public Dieta(String descrizione, String note) {
+    public Dieta(String descrizione, String note, int id) {
+        this.idDieta = id;
         setDescrizione(descrizione);
         setNote(note);
     }
@@ -31,5 +33,13 @@ public class Dieta {
             throw new IllegalArgumentException("Le note non possono essere vuote.");
         }
         this.note = note;
+    }
+
+    public int getId() {
+        return idDieta;
+    }
+
+    public void setId(int id) {
+        this.idDieta = id;
     }
 }

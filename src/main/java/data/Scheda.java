@@ -3,9 +3,11 @@ package data;
 public class Scheda {
     private String descrizione;
     private String note;
+    private int idScheda;
 
     // Costruttore
-    public Scheda(String descrizione, String note) {
+    public Scheda(String descrizione, String note, int idScheda) {
+        this.idScheda = idScheda;
         setDescrizione(descrizione);
         setNote(note);
     }
@@ -31,5 +33,13 @@ public class Scheda {
             throw new IllegalArgumentException("Le note non possono essere vuote.");
         }
         this.note = note;
+    }
+
+    public int getIdScheda() {
+        return idScheda;
+    }
+
+    public void setIdScheda(int idScheda) {
+        this.idScheda = idScheda;
     }
 }
