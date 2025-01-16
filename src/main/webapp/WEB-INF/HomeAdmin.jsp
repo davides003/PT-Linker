@@ -143,6 +143,24 @@
             width: 90%;
             border: 1px solid #ddd;
         }
+
+        .logout-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logout-container button {
+            background-color: #FF6600;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .logout-container button:hover {
+            background-color: #e05500;
+        }
     </style>
 </head>
 <body>
@@ -296,5 +314,11 @@
         </table>
     <% } %>
     </table>
+    <!-- Bottone Logout -->
+    <div class="logout-container">
+        <form action="LogoutServlet" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </body>
 </html>
