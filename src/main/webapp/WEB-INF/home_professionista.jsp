@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT-Linker Nutritionist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .header {
+            background-color: #ff6600;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header img {
+            width: 50px;
+            height: 50px;
+        }
+        .search-bar {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .search-bar input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-bar button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+        }
+        .left-panel, .right-panel {
+            flex: 1 1 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .left-panel img, .right-panel img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+        .left-panel .notification {
+            position: relative;
+            display: inline-block;
+        }
+        .left-panel .notification .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .table-container {
+            flex-grow: 1;
+            overflow-x: auto;
+            min-width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        table th {
+            background-color: #f2f2f2;
+        }
+        .filter {
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 1024px) {
+            .search-bar input[type="text"] {
+                width: 70%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header img {
+                margin-bottom: 10px;
+            }
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+            .left-panel, .right-panel {
+                flex: 1 1 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-bar input[type="text"] {
+                width: 90%;
+            }
+            .left-panel img, .right-panel img {
+                max-width: 100px;
+            }
+            table th, table td {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <img src="logo-placeholder.png" alt="Logo">
+    <h1>PT-Linker</h1>
+    <img src="profile-placeholder.png" alt="Profile">
+</div>
+
+<div class="search-bar">
+    <input type="text" placeholder="Search...">
+    <button>Search</button>
+</div>
+
+<div class="content">
+    <div class="left-panel">
+        <div class="notification">
+            <img src="chat-placeholder.png" alt="Chat">
+        </div>
+        <img src="diet-set-placeholder.png" alt="Diet Set">
+    </div>
+
+    <div class="table-container">
+        <div class="filter">
+            <input type="checkbox" id="filter">
+            <label for="filter">Filter</label>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>User</th>
+                <th>Has a Diet</th>
+                <th>Last Diet</th>
+                <th>He Paid</th>
+                <th>Last Paid</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Carletto03</td>
+                <td>Yes</td>
+                <td>10/12/2024</td>
+                <td>Yes</td>
+                <td>10/12/2024</td>
+            </tr>
+            <tr>
+                <td>Andrea03</td>
+                <td>No</td>
+                <td>---</td>
+                <td>No</td>
+                <td>---</td>
+            </tr>
+            <tr>
+                <td>Carmine03</td>
+                <td>No</td>
+                <td>10/07/2024</td>
+                <td>No</td>
+                <td>---</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="right-panel">
+        <img src="balance-placeholder.png" alt="Balance">
+        <img src="certifications-placeholder.png" alt="Certifications">
+        <img src="settings-placeholder.png" alt="Settings">
+    </div>
+</div>
+</body>
+</html>
