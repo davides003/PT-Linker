@@ -28,7 +28,7 @@ public class Load {
                     con.prepareStatement("SELECT * FROM ADMINN");
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                Amministratore a = new Amministratore(rs.getString("Nome"),rs.getString("Cognome"), "gg@hhh", "bb", 2, "gggg", "chcchhch", rs.getString("Username") , rs.getInt("CODICE") );
+                Amministratore a = new Amministratore(rs.getString("Nome"),rs.getString("Cognome"), rs.getString("Email"),  rs.getString("Username") , rs.getString("Password"),  rs.getInt("CODICE") );
             listAmm.add(a);
             }
         } catch (SQLException e) {
