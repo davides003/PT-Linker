@@ -1,4 +1,4 @@
-package data;
+package data.entity;
 
 public class Chat {
     private int idMittente,idChat;

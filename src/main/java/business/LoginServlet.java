@@ -1,4 +1,4 @@
-package presentation;
+package business;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Se il metodo è GET, l'utente sta cercando di navigare alla pagina di login
         // Quindi mostriamo il form di login
-        request.getRequestDispatcher("WEB-INF/HomeAdmin.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
     }
 
     // Gestisce la raccolta dei dati dal form e la logica di login

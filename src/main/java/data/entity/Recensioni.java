@@ -1,4 +1,4 @@
-package data;
+package data.entity;
 
 public class Recensioni {
     private int idCliente;

@@ -1,9 +1,9 @@
-<%@ page import="data.Amministratore" %>
-<%@ page import="data.Cliente" %>
+<%@ page import="data.entity.Amministratore" %>
+<%@ page import="data.entity.Cliente" %>
 <%@ page import="java.lang.reflect.Array" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="data.Nutrizionista" %>
-<%@ page import="data.PersonalTrainer" %>
+<%@ page import="data.entity.Nutrizionista" %>
+<%@ page import="data.entity.PersonalTrainer" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

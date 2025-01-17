@@ -1,4 +1,4 @@
-package data;
+package data.entity;
 
 public class Amministratore{
     private String nome,cognome,email,username,password;

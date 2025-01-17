@@ -1,4 +1,4 @@
-package data;
+package data.DAO;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -16,7 +16,7 @@ public class CollegamentoDB {
             p.setUrl("jdbc:mysql://localhost:3306/PT_LINKER?serverTimezone=" + TimeZone.getDefault().getID());
             p.setDriverClassName("com.mysql.cj.jdbc.Driver");
             p.setUsername("root");
-            p.setPassword("angelo@2015");
+            p.setPassword("Filip2004!");
             p.setMaxActive(100);
             p.setInitialSize(10);
             p.setMinIdle(10);

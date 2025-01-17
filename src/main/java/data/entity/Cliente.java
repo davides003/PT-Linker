@@ -1,4 +1,4 @@
-package data;
+package data.entity;
 
 public class Cliente extends Utente {
     private float altezza;
