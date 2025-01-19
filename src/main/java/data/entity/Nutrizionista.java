@@ -7,8 +7,8 @@ public class Nutrizionista extends Utente {
     private boolean abilitato;
 
     // Costruttore
-    public Nutrizionista(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idN, ArrayList<String> certificati, boolean abilitato) {
-        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta, idN);
+    public Nutrizionista(String nome, String cognome, String username, String email, String password, String dataNascita, int idN, ArrayList<String> certificati, boolean abilitato) {
+        super(nome, cognome, username, email, password, dataNascita, idN);
         this.certificati = certificati;
         this.abilitato = abilitato;
     }

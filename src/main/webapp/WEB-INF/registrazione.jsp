@@ -144,7 +144,7 @@
 
 <div class="container">
     <h2>REGISTRAZIONE</h2>
-    <form action="RegistrazioneServlet" method="post">
+    <form action="RegistrazioneServlet" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -191,7 +191,7 @@
     const roleSelect = document.getElementById("role");
     const additionalFieldsContainer = document.getElementById("additionalFields");
 
-    roleSelect.addEventListener("change", function() {
+    roleSelect.addEventListener("change", function () {
         additionalFieldsContainer.innerHTML = ""; // Clear previous fields
 
         if (this.value === "cliente") {
@@ -233,7 +233,7 @@
             additionalFieldsContainer.innerHTML = `
                 <div class="form-group">
                     <label for="certificati">Certificati (carica PDF):</label>
-                    <input type="file" id="certificati" name="certificati" accept=".pdf" required>
+                    <input type="file" id="certificati" name="certificati" accept=".pdf" multiple required>
                 </div>
             `;
         }

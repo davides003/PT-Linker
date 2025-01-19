@@ -11,8 +11,8 @@ public class Cliente extends Utente {
     private float circonferenzaGambaSx;
 
     // Costruttore
-    public Cliente(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idC, float altezza, float peso, float larghezzaGirovita, float circonferenzaBracciaDx, float circonferenzaBracciaSx, float circonferenzaTorace, float circonferenzaGambaDx, float circonferenzaGambaSx) {
-        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta,idC);
+    public Cliente(String nome, String cognome, String username, String email, String password, String dataNascita, int idC, float altezza, float peso, float larghezzaGirovita, float circonferenzaBracciaDx, float circonferenzaBracciaSx, float circonferenzaTorace, float circonferenzaGambaDx, float circonferenzaGambaSx) {
+        super(nome, cognome, username, email, password, dataNascita, idC);
         setAltezza(altezza);
         setPeso(peso);
         setLarghezzaGirovita(larghezzaGirovita);

@@ -7,8 +7,8 @@ public class PersonalTrainer extends Utente {
     private boolean abilitato;
 
     // Costruttore
-    public PersonalTrainer(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int idP, ArrayList<String> attestati, boolean abilitato) {
-        super(nome, cognome, email, indirizzo, eta, recapitoTelefonico, citta, idP);
+    public PersonalTrainer(String nome, String cognome, String username, String email, String password, String dataNascita, int idP, ArrayList<String> attestati, boolean abilitato) {
+        super(nome, cognome, username, email, password, dataNascita, idP);
         this.attestati = attestati;
         this.abilitato = abilitato;
     }

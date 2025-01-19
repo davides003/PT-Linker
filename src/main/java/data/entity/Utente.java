@@ -4,21 +4,19 @@ public class Utente {
     private String nome;
     private String cognome;
     private String email;
-    private String indirizzo;
-    private int eta,id;
-    private String recapitoTelefonico;
-    private String citta;
+    private String password;
+    private String username, dataDiNascita;
+    private int id;
 
     // Costruttore
-    public Utente(String nome, String cognome, String email, String indirizzo, int eta, String recapitoTelefonico, String citta, int id) {
+    public Utente(String nome, String cognome, String username, String email, String password, String dataDiNascita, int id) {
         this.id = id;
-        setNome(nome);
-        setCognome(cognome);
-        setEmail(email);
-        setIndirizzo(indirizzo);
-        setEta(eta);
-        setRecapitoTelefonico(recapitoTelefonico);
-        setCitta(citta);
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.password = password;
+        this.dataDiNascita = dataDiNascita;
+        this.username = username;
     }
 
     // Getters e Setters
@@ -55,49 +53,7 @@ public class Utente {
         this.email = email;
     }
 
-    public String getIndirizzo() {
-        return indirizzo;
-    }
 
-    public void setIndirizzo(String indirizzo) {
-        if (indirizzo == null || indirizzo.isEmpty()) {
-            throw new IllegalArgumentException("Indirizzo non valido.");
-        }
-        this.indirizzo = indirizzo;
-    }
-
-    public int getEta() {
-        return eta;
-    }
-
-    public void setEta(int eta) {
-        if (eta < 0) {
-            throw new IllegalArgumentException("L'età non può essere negativa.");
-        }
-        this.eta = eta;
-    }
-
-    public String getRecapitoTelefonico() {
-        return recapitoTelefonico;
-    }
-
-    public void setRecapitoTelefonico(String recapitoTelefonico) {
-        if (recapitoTelefonico == null || recapitoTelefonico.isEmpty()) {
-            throw new IllegalArgumentException("Il recapito telefonico non può essere vuoto.");
-        }
-        this.recapitoTelefonico = recapitoTelefonico;
-    }
-
-    public String getCitta() {
-        return citta;
-    }
-
-    public void setCitta(String citta) {
-        if (citta == null || citta.isEmpty()) {
-            throw new IllegalArgumentException("La città non può essere vuota.");
-        }
-        this.citta = citta;
-    }
 
     public int getId() {
         return id;
@@ -105,5 +61,29 @@ public class Utente {
 
     public void setIdU(int id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDataDiNascita() {
+        return dataDiNascita;
+    }
+
+    public void setDataDiNascita(String dataDiNascita) {
+        this.dataDiNascita = dataDiNascita;
     }
 }
