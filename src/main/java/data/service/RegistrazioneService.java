@@ -2,6 +2,7 @@ package data.service;
 
 import data.DAO.AutenticazioneDAO;
 import data.entity.Cliente;
+import data.entity.Professionista;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,15 +21,15 @@ public class RegistrazioneService {
         return esito;
     }
 
-    public boolean registraProfessionista(String nome, String cognome, String username, String email, String password, String dataNascita, int id, String ruolo){
+    public boolean registraProfessionista(Professionista p){
         AutenticazioneDAO operazioni=new AutenticazioneDAO();
-        boolean esito=operazioni.salvaProfessionista(nome,cognome,username,email,password,dataNascita,id,ruolo);
+        boolean esito=operazioni.salvaProfessionista(p);
         return esito;
     }
 
-    public boolean registraCertificati(int id,ArrayList<String> certificati){
+    public boolean registraCertificati(ArrayList<String> certificati){
         AutenticazioneDAO operazioni=new AutenticazioneDAO();
-        boolean esito=operazioni.salvaCertificati(id,certificati);
+        boolean esito=operazioni.salvaCertificati(certificati);
         return esito;
     }
 }

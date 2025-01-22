@@ -1,6 +1,7 @@
 package business;
 
 import data.entity.Cliente;
+import data.entity.Professionista;
 import data.service.RegistrazioneService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -69,15 +70,16 @@ public class RegistrazioneServlet extends HttpServlet {
         if (!presente) {
             // Salvataggio dei dati del professionista o cliente
             if ("cliente".equals(ruolo)) {
-                salvaCliente(request, id, nome, cognome, username, email, password, dataNascita, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
+                salvaCliente(request, 0, nome, cognome, username, email, password, dataNascita, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
             } else if ("personal_trainer".equals(ruolo) || "nutrizionista".equals(ruolo)) {
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
                 salvaCertificati(request, certificatiPercorsi);
                 if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
-                    regService.registraProfessionista(nome, cognome, username, email, password, dataNascita, id, ruolo);
-                    regService.registraCertificati(id, certificatiPercorsi);
+                    Professionista pr=new Professionista(nome, cognome, username, email, password, dataNascita, 0,null,false, ruolo);
+                    regService.registraProfessionista(pr);
+                    regService.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");
                 } else {
                     System.out.println("Nessun file PDF caricato.");

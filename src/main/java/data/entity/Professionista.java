@@ -2,15 +2,17 @@ package data.entity;
 
 import java.util.ArrayList;
 
-public class PersonalTrainer extends Utente {
+public class Professionista extends Utente {
     private ArrayList<String> attestati;
+    private String tipo;
     private boolean abilitato;
 
     // Costruttore
-    public PersonalTrainer(String nome, String cognome, String username, String email, String password, String dataNascita, int idP, ArrayList<String> attestati, boolean abilitato) {
+    public Professionista(String nome, String cognome, String username, String email, String password, String dataNascita, int idP, ArrayList<String> attestati, boolean abilitato, String tipo) {
         super(nome, cognome, username, email, password, dataNascita, idP);
         this.attestati = attestati;
         this.abilitato = abilitato;
+        this.tipo=tipo;
     }
 
     public boolean isAbilitato() {
@@ -27,5 +29,13 @@ public class PersonalTrainer extends Utente {
 
     public void setAttestati(ArrayList<String> attestati) {
         this.attestati = attestati;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

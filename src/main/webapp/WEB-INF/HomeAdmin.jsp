@@ -2,8 +2,7 @@
 <%@ page import="data.entity.Cliente" %>
 <%@ page import="java.lang.reflect.Array" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="data.entity.Nutrizionista" %>
-<%@ page import="data.entity.PersonalTrainer" %>
+<%@ page import="data.entity.Professionista" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -183,12 +182,11 @@
 <h2>Lista utenti</h2>
 <%
     ArrayList<Cliente> clients = null;//(ArrayList<Cliente>) request.getAttribute("clients");
-    ArrayList<Nutrizionista> nutrizionisti = null;//(ArrayList<Nutrizionista>) request.getAttribute("nutrizionisti");
-    ArrayList<PersonalTrainer> personalTrainers = null;//(ArrayList<PersonalTrainer>) request.getAttribute("personalTrainers");
+    ArrayList<Professionista> professionista = null;//(ArrayList<PersonalTrainer>) request.getAttribute("professionistas");
 %>
 <h2>Professionisti</h2>
     <table>
-        <%if ((personalTrainers != null && !personalTrainers.isEmpty()) || (nutrizionisti != null && !nutrizionisti.isEmpty())) { %>
+        <%if (professionista != null && !professionista.isEmpty()) { %>
             <thead>
             <tr>
                 <th>ID</th>
@@ -201,10 +199,10 @@
         <% } %>
         <hr>
         <!-- Visualizzazione Personal Trainers -->
-        <h3>Personal Trainer</h3>
-        <% if (personalTrainers == null || personalTrainers.isEmpty()) { %>
-            <h3>Non ci sono Personal Trainer registrati</h3>
+        <% if (professionista == null || professionista.isEmpty()) { %>
+            <h3>Non ci sono Professionisti registrati</h3>
         <% }else{ %>
+        <h3>Personal Trainer</h3>
         <table>
             <thead>
             <tr>
@@ -216,14 +214,15 @@
             </thead>
             <tbody>
             <%
-                for (PersonalTrainer pt : personalTrainers) {
+                for (Professionista pr : professionista) {
+                    if(pr.getTipo().equals("personal_trainer")){
             %>
             <tr>
-                <td><%= pt.getId() %></td>
-                <td><%= pt.getNome() %></td>
+                <td><%= pr.getId() %></td>
+                <td><%= pr.getNome() %></td>
                 <td>
                     <ul>
-                        <% for (String cert : pt.getAttestati()) { %>
+                        <% for (String cert : pr.getAttestati()) { %>
                         <li><%= cert %></li>
                         <% } %>
                     </ul>
@@ -231,23 +230,19 @@
                 <td>
                     <form action="AdminController" method="post">
                         <input type="hidden" name="action" value="togglePersonalTrainer">
-                        <input type="hidden" name="id" value="<%= pt.getId() %>">
+                        <input type="hidden" name="id" value="<%= pr.getId() %>">
                         <button type="submit">
-                            <%= pt.isAbilitato() ? "Disabilita" : "Abilita" %>
+                            <%= pr.isAbilitato() ? "Disabilita" : "Abilita" %>
                         </button>
                     </form>
                 </td>
             </tr>
-            <% } %>
+            <% }else{%>
             </tbody>
         </table>
-    <% } %>
         <hr>
     <!-- Visualizzazione Nutrizionisti -->
     <h3>Nutrizionisti</h3>
-    <% if (nutrizionisti == null || nutrizionisti.isEmpty()) { %>
-        <h3>Non ci sono Nutrizionisti registrati</h3>
-    <% }else{ %>
         <table>
             <thead>
             <tr>
@@ -258,15 +253,12 @@
             </tr>
             </thead>
             <tbody>
-            <%
-                for (Nutrizionista nutrizionista : nutrizionisti) {
-            %>
             <tr>
-                <td><%= nutrizionista.getId() %></td>
-                <td><%= nutrizionista.getNome() %></td>
+                <td><%= pr.getId() %></td>
+                <td><%= pr.getNome() %></td>
                 <td>
                     <ul>
-                        <% for (String cert : nutrizionista.getCertificati()) { %>
+                        <% for (String cert : pr.getAttestati()) { %>
                         <li><%= cert %></li>
                         <% } %>
                     </ul>
@@ -274,14 +266,15 @@
                 <td>
                     <form action="AdminController" method="post">
                         <input type="hidden" name="action" value="toggleNutrizionista">
-                        <input type="hidden" name="id" value="<%= nutrizionista.getId() %>">
+                        <input type="hidden" name="id" value="<%= pr.getId() %>">
                         <button type="submit">
-                            <%= nutrizionista.isAbilitato() ? "Disabilita" : "Abilita" %>
+                            <%= pr.isAbilitato() ? "Disabilita" : "Abilita" %>
                         </button>
                     </form>
                 </td>
             </tr>
-            <% } %>
+            <% }
+            }%>
             </tbody>
         </table>
     <%
