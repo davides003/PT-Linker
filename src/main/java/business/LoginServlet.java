@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -27,9 +28,17 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        CodificaPass cod = new CodificaPass();
+        String hashPass;
+        try{
+            hashPass=cod.toHash(password);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
         // Chiamare la logica di business per la validazione
         LoginService loginLogic = new LoginService();
-        Utente isValid = loginLogic.verificaUtente(email, password);
+        Utente isValid = loginLogic.verificaUtente(email, hashPass);
 
         if (isValid instanceof Cliente) {
 

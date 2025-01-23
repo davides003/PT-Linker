@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import java.io.File;
 import java.io.IOException;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -51,6 +52,14 @@ public class RegistrazioneServlet extends HttpServlet {
         String ruolo = request.getParameter("role");
         System.out.println("username"+username+" \nRuolo "+ruolo);
 
+        String hashPass = null;
+        CodificaPass cod = new CodificaPass();
+        try {
+            hashPass = cod.toHash(password);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
         // Inizializza i campi aggiuntivi
         Float altezza = null;
         Float peso = null;
@@ -70,14 +79,14 @@ public class RegistrazioneServlet extends HttpServlet {
         if (!presente) {
             // Salvataggio dei dati del professionista o cliente
             if ("cliente".equals(ruolo)) {
-                salvaCliente(request, 0, nome, cognome, username, email, password, dataNascita, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
+                salvaCliente(request, 0, nome, cognome, username, email, hashPass, dataNascita, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
             } else if ("personal_trainer".equals(ruolo) || "nutrizionista".equals(ruolo)) {
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
                 salvaCertificati(request, certificatiPercorsi);
                 if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
-                    Professionista pr=new Professionista(nome, cognome, username, email, password, dataNascita, 0,null,false, ruolo);
+                    Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, 0,null,false, ruolo);
                     regService.registraProfessionista(pr);
                     regService.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");
@@ -94,7 +103,7 @@ public class RegistrazioneServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String password, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
+    private void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
         altezza = Float.parseFloat(request.getParameter("altezza"));
         peso = Float.parseFloat(request.getParameter("peso"));
         girovita = Float.parseFloat(request.getParameter("girovita"));
@@ -104,7 +113,7 @@ public class RegistrazioneServlet extends HttpServlet {
         circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
         circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
 
-        Cliente cliente = new Cliente(nome, cognome, username, email, password, dataNascita, id, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
+        Cliente cliente = new Cliente(nome, cognome, username, email, hashPass, dataNascita, id, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
         RegistrazioneService regService = new RegistrazioneService();
         boolean esitoReg = regService.registraCliente(cliente);
         if (!esitoReg) {
