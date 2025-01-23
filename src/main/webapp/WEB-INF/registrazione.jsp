@@ -144,7 +144,7 @@
 
 <div class="container">
     <h2>REGISTRAZIONE</h2>
-    <form action="RegistrazioneServlet" method="post" enctype="multipart/form-data">
+    <form action="RegistrazioneServlet" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -186,7 +186,6 @@
         <button type="submit" class="btn">Registrati</button>
     </form>
 </div>
-
 <script>
     const roleSelect = document.getElementById("role");
     const additionalFieldsContainer = document.getElementById("additionalFields");
@@ -238,6 +237,19 @@
             `;
         }
     });
+
+    function validateForm() {
+        const birthdateInput = document.getElementById("birthdate");
+        const birthdateValue = new Date(birthdateInput.value);
+        const today = new Date();
+
+        // Controlla che la data sia precedente a oggi
+        if (birthdateValue >= today) {
+            alert("La data di nascita deve essere precedente alla data odierna.");
+            return false;
+        }
+        return true; // La data è valida
+    }
 </script>
 </body>
 </html>
