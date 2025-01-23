@@ -160,6 +160,29 @@
         .logout-container button:hover {
             background-color: #e05500;
         }
+        .logout-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logout-container button {
+            background-color: #FF6600;
+            color: white;
+            padding: 12px 25px; /* Dimensioni aumentate */
+            border: none;
+            border-radius: 8px; /* Angoli arrotondati più evidenti */
+            cursor: pointer;
+            font-size: 18px; /* Testo più grande */
+            font-weight: bold; /* Testo in grassetto */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per maggiore profondità */
+            transition: all 0.3s ease; /* Transizione fluida per gli hover */
+        }
+
+        .logout-container button:hover {
+            background-color: #e05500; /* Colore hover */
+            transform: scale(1.05); /* Leggero zoom */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Ombra più marcata */
+        }
     </style>
 </head>
 <body>
@@ -308,10 +331,10 @@
     <% } %>
     </table>
     <!-- Bottone Logout -->
-    <div class="logout-container">
-        <form action="LogoutServlet" method="post">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
+<div class="logout-container">
+    <form action="Logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
 </body>
 </html>

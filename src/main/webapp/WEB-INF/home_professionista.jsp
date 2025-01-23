@@ -11,6 +11,7 @@
             padding: 0;
             background-color: #f9f9f9;
         }
+
         .header {
             background-color: #ff6600;
             color: white;
@@ -19,16 +20,46 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .header img {
             width: 50px;
             height: 50px;
         }
+
+        .logout-container form {
+            margin: 0;
+        }
+
+        .logout-container .logout-button {
+            background-color: #ff3333; /* Colore del bottone */
+            color: white;
+            border: none;
+            border-radius: 20px; /* Bordi arrotondati */
+            padding: 10px 20px; /* Spaziatura interna */
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer; /* Cambia il cursore */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animazione su hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombra */
+        }
+
+        .logout-container .logout-button:hover {
+            background-color: #e62e2e; /* Colore al passaggio del mouse */
+            transform: scale(1.05); /* Leggero ingrandimento */
+        }
+
+        .logout-container .logout-button:active {
+            background-color: #cc2929; /* Colore quando cliccato */
+            transform: scale(0.98); /* Effetto pressione */
+        }
+
         .search-bar {
             margin: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .search-bar input[type="text"] {
             width: 50%;
             padding: 10px;
@@ -36,6 +67,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .search-bar button {
             margin-left: 10px;
             padding: 10px 20px;
@@ -46,12 +78,14 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .content {
             display: flex;
             flex-wrap: wrap;
             padding: 20px;
             gap: 20px;
         }
+
         .left-panel, .right-panel {
             flex: 1 1 150px;
             display: flex;
@@ -59,16 +93,19 @@
             align-items: center;
             gap: 20px;
         }
+
         .left-panel img, .right-panel img {
             width: 100%;
             max-width: 150px;
             height: auto;
             border: 1px solid #ccc;
         }
+
         .left-panel .notification {
             position: relative;
             display: inline-block;
         }
+
         .left-panel .notification .badge {
             position: absolute;
             top: -5px;
@@ -79,24 +116,29 @@
             padding: 5px 10px;
             font-size: 14px;
         }
+
         .table-container {
             flex-grow: 1;
             overflow-x: auto;
             min-width: 300px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
             margin-top: 20px;
         }
+
         table th, table td {
             border: 1px solid #ccc;
             padding: 10px;
         }
+
         table th {
             background-color: #f2f2f2;
         }
+
         .filter {
             margin-left: 20px;
             display: flex;
@@ -114,13 +156,16 @@
                 flex-direction: column;
                 text-align: center;
             }
+
             .header img {
                 margin-bottom: 10px;
             }
+
             .content {
                 flex-direction: column;
                 align-items: center;
             }
+
             .left-panel, .right-panel {
                 flex: 1 1 100%;
                 max-width: 300px;
@@ -131,9 +176,11 @@
             .search-bar input[type="text"] {
                 width: 90%;
             }
+
             .left-panel img, .right-panel img {
                 max-width: 100px;
             }
+
             table th, table td {
                 font-size: 14px;
                 padding: 8px;
@@ -145,7 +192,11 @@
 <div class="header">
     <img src="logo-placeholder.png" alt="Logo">
     <h1>PT-Linker</h1>
-    <img src="profile-placeholder.png" alt="Profile">
+    <div class="logout-container">
+        <form action="Logout" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
 </div>
 
 <div class="search-bar">

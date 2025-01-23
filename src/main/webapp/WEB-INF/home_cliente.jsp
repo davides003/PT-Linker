@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +30,33 @@
             font-size: 1.5rem;
         }
 
+        .logout-container form {
+            margin: 0;
+        }
+
+        .logout-container .logout-button {
+            background-color: #ff3333; /* Colore del bottone */
+            color: white;
+            border: none;
+            border-radius: 20px; /* Bordi arrotondati */
+            padding: 10px 20px; /* Spaziatura interna */
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer; /* Cambia il cursore */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animazione su hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombra */
+        }
+
+        .logout-container .logout-button:hover {
+            background-color: #e62e2e; /* Colore al passaggio del mouse */
+            transform: scale(1.05); /* Leggero ingrandimento */
+        }
+
+        .logout-container .logout-button:active {
+            background-color: #cc2929; /* Colore quando cliccato */
+            transform: scale(0.98); /* Effetto pressione */
+        }
+
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -39,7 +66,7 @@
         }
 
         .card {
-            flex: 1 1 calc(33.33% - 40px); /* Responsive size */
+            flex: 1 1 calc(33.33% - 40px); /* Dimensione responsiva */
             max-width: 400px;
             height: 400px;
             border: 2px dashed #ccc;
@@ -61,13 +88,13 @@
 
         @media (max-width: 1024px) {
             .card {
-                flex: 1 1 calc(50% - 40px); /* 2 cards per row */
+                flex: 1 1 calc(50% - 40px); /* 2 card per riga */
             }
         }
 
         @media (max-width: 768px) {
             .card {
-                flex: 1 1 100%; /* 1 card per row */
+                flex: 1 1 100%; /* 1 card per riga */
             }
         }
 
@@ -91,8 +118,13 @@
 <div class="header">
     <img src="logo-placeholder.png" alt="Logo">
     <h1>PT-Linker</h1>
-    <img src="profile-placeholder.png" alt="Profile">
+    <div class="logout-container">
+        <form action="Logout" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
 </div>
+
 
 <div class="container">
     <div class="card">
