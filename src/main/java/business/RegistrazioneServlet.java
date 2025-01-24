@@ -2,6 +2,7 @@ package business;
 
 import data.entity.Cliente;
 import data.entity.Professionista;
+import data.service.DropboxService;
 import data.service.RegistrazioneService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -84,9 +85,11 @@ public class RegistrazioneServlet extends HttpServlet {
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
                 salvaCertificati(request, certificatiPercorsi);
+                DropboxService dbS= new DropboxService();
                 if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
-                    Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, 0,null,false, ruolo);
+                    Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, 0,certificatiPercorsi,false, ruolo);
+                    dbS.caricaAttestati(pr);
                     regService.registraProfessionista(pr);
                     regService.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");

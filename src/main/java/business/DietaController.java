@@ -25,6 +25,7 @@ public class DietaController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Codice per salvare il file Excel
+        System.out.println("Salva Excel");
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Dati Tabella");
 
@@ -109,27 +110,52 @@ public class DietaController extends HttpServlet{
                 out.println("<form method='post' action='dieta'>");
                 out.println("<table id='tabella'>");
 
+                // Prima riga con i giorni della settimana
+                out.println("<tr>");
+                out.println("<th>Tipo Pasti</th>");
+                out.println("<th>Lunedì</th>");
+                out.println("<th>Martedì</th>");
+                out.println("<th>Mercoledì</th>");
+                out.println("<th>Giovedì</th>");
+                out.println("<th>Venerdì</th>");
+                out.println("<th>Sabato</th>");
+                out.println("<th>Domenica</th>");
+                out.println("</tr>");
+
                 // Itera sulle righe e colonne del foglio Excel
-                for (int rowNum = 0; rowNum < sheet.getPhysicalNumberOfRows(); rowNum++) {
+                for (int rowNum = 0; rowNum < 6; rowNum++) {  // Fissiamo a 7 righe (escludendo la prima riga con i giorni)
                     XSSFRow row = sheet.getRow(rowNum);
                     out.println("<tr>");
-                    for (int colNum = 0; colNum < row.getPhysicalNumberOfCells(); colNum++) {
-                        XSSFCell cell = row.getCell(colNum);
-                        String cellValue = cell != null ? cell.toString() : "";
 
-                        // Aggiungi un campo di input per ogni cella
+                    // Aggiungi l'etichetta tipo pasto
+                    String tipoPasto = "";
+                    switch (rowNum) {
+                        case 0: tipoPasto = "Colazione"; break;
+                        case 1: tipoPasto = "Merenda"; break;
+                        case 2: tipoPasto = "Pranzo"; break;
+                        case 3: tipoPasto = "Merenda"; break;
+                        case 4: tipoPasto = "Cena"; break;
+                        case 5: tipoPasto = "Merenda"; break;
+                    }
+                    out.println("<td>" + tipoPasto + "</td>");
+
+                    // Aggiungi le celle con i valori dal file Excel
+                    for (int colNum = 0; colNum < 7; colNum++) {  // Fissiamo a 7 colonne (giorni della settimana)
+                        XSSFCell cell = row != null ? row.getCell(colNum) : null;
+                        String cellValue = cell != null ? cell.toString() : "";
                         out.println("<td><input type='text' name='cella_" + rowNum + "_" + colNum + "' id='cella_" + rowNum + "_" + colNum + "' value='" + cellValue + "'></td>");
                     }
+
+                    // Aggiungi il bottone per svuotare la riga
+                    out.println("<td><button type='button' onclick='svuotaRiga(" + rowNum + ")'>-</button></td>");
+
                     out.println("</tr>");
                 }
 
                 out.println("</table>");
-                out.println("<input type='button' onclick='aggiungiColonna()' value='Add Colonna'>");
-                out.println("<input type='button' onclick='aggiungiRiga()' value='Add Riga'><br>");
-
-                out.println("<input type='submit' value='Salva Modifiche'>");
                 out.println("</form>");
-                out.println("</body></html>");
+                out.println("</body>");
+                out.println("</html>");
 
                 workbook.close();
                 fis.close();
@@ -144,53 +170,44 @@ public class DietaController extends HttpServlet{
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>JSP - Hello World</title>");
-            out.println("<script>");
-            out.println("function aggiungiRiga(){");
-            out.println("    const tabella = document.getElementById('tabella');");
-            out.println("    const riga1 = tabella.rows[0];");
-            out.println("    const numColonne = riga1.cells.length;");
-            out.println("    const indRiga = tabella.rows.length;");
-            out.println("    const nuovaRiga = tabella.insertRow();");
-            out.println("    nuovaRiga.id = 'riga' + indRiga;");
-            out.println("    for (let i = 0; i < numColonne; i++) {");
-            out.println("        const nuovaCella = nuovaRiga.insertCell();");
-            out.println("        nuovaCella.id = 'colonna' + i;");
-            out.println("        const input = document.createElement('input');");
-            out.println("        input.type = 'text';");
-            out.println("        input.name = 'cella_' + indRiga + '_' + i;");
-            out.println("        input.id = 'cella_' + indRiga + '_' + i;");
-            out.println("        input.value = 'cella_' + indRiga + '_' + i;");
-            out.println("        nuovaCella.appendChild(input);");
-            out.println("    }");
-            out.println("}");
-            out.println("function aggiungiColonna(){");
-            out.println("    const tabella = document.getElementById('tabella');");
-            out.println("    for (let i = 0; i < tabella.rows.length; i++) {");
-            out.println("        const nuovaCella = tabella.rows[i];");
-            out.println("        const numColonna = nuovaCella.cells.length;");
-            out.println("        const nCell = nuovaCella.insertCell();");
-            out.println("        nCell.id = 'colonna' + numColonna;");
-            out.println("        const input = document.createElement('input');");
-            out.println("        input.type = 'text';");
-            out.println("        input.name = 'cella_' + i + '_' + numColonna;");
-            out.println("        input.id = 'cella_' + i + '_' + numColonna;");
-            out.println("        input.value = 'cella_' + i + '_' + numColonna;");
-            out.println("        nCell.appendChild(input);");
-            out.println("    }");
-            out.println("}");
-            out.println("</script>");
+            out.println("<title>Gestione Tabella</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<form id='formTabella' method='post' action='dieta'>");
+            out.println("<form method='post' action='dieta'>");
             out.println("<table id='tabella'>");
-            out.println("<tr id='riga0'>");
-            out.println("<td id='colonna0'><input type='text' name='cella_0_0' id='cella_0_0' value='cella_0_0'></td>");
-            out.println("<td id='colonna1'><input type='text' name='cella_0_1' id='cella_0_1' value='cella_0_1'></td>");
+
+            // Prima riga con i giorni della settimana
+            out.println("<tr>");
+            out.println("<th>Tipo Pasti</th>");
+            out.println("<th>Lunedì</th>");
+            out.println("<th>Martedì</th>");
+            out.println("<th>Mercoledì</th>");
+            out.println("<th>Giovedì</th>");
+            out.println("<th>Venerdì</th>");
+            out.println("<th>Sabato</th>");
+            out.println("<th>Domenica</th>");
             out.println("</tr>");
+
+            // Creazione della tabella con 7 righe e 7 colonne, tutte vuote
+            String[] tipiPasti = {"Colazione", "Merenda", "Pranzo", "Merenda", "Cena", "Merenda"};
+            for (int rowNum = 0; rowNum < 6; rowNum++) {
+                out.println("<tr>");
+
+                // Aggiungi l'etichetta tipo pasto
+                out.println("<td>" + tipiPasti[rowNum] + "</td>");
+
+                // Creazione delle celle vuote per ciascun giorno
+                for (int colNum = 0; colNum < 7; colNum++) {
+                    out.println("<td><input type='text' name='cella_" + rowNum + "_" + colNum + "' id='cella_" + rowNum + "_" + colNum + "' value=''></td>");
+                }
+
+                // Aggiungi il bottone per svuotare la riga
+                out.println("<td><button type='button' onclick='svuotaRiga(" + rowNum + ")'>-</button></td>");
+
+                out.println("</tr>");
+            }
+
             out.println("</table>");
-            out.println("<input type='button' onclick='aggiungiColonna()' value='Add Colonna'>");
-            out.println("<input type='button' onclick='aggiungiRiga()' value='Add Riga'>");
             out.println("<input type='submit' value='Invio'>");
             out.println("</form>");
             out.println("</body>");

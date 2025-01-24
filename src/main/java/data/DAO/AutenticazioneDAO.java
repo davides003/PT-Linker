@@ -3,6 +3,7 @@ package data.DAO;
 import data.entity.Cliente;
 import data.entity.Professionista;
 import data.entity.Utente;
+import data.service.DropboxService;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -135,6 +136,8 @@ public class AutenticazioneDAO {
     }
 
     public boolean salvaCertificati( ArrayList<String> certificati) {
+        DropboxService dbS= new DropboxService();
+
         String queryID="SELECT CODICE FROM PROFESSIONISTA ORDER BY CODICE DESC LIMIT 1";
         String queryDocumenti = "INSERT INTO DOCUMENTI (PROFESSIONISTA_CODICE, Numero, Percorso_Documenti) " +
                 "VALUES (?, ?, ?)";
@@ -157,6 +160,8 @@ public class AutenticazioneDAO {
             PreparedStatement psDocumenti = database.prepareStatement(queryDocumenti);
                 for (int i = 0; i < certificati.size(); i++) {
                     String certificato = certificati.get(i);  // certificato è una stringa che contiene il percorso del file
+
+                    dbS.uploadFile(certificato+"_"+ultimoId,"/PT_LINKER/ATTESTATI/");
 
                     // Inserisci il percorso del certificato nella tabella DOCUMENTI
                     psDocumenti.setInt(1, ultimoId);  // PROFESSIONISTA_CODICE

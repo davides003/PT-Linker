@@ -3,6 +3,8 @@ package data.service;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.*;
+import data.DAO.AutenticazioneDAO;
+import data.entity.Professionista;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
