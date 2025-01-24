@@ -73,9 +73,24 @@ public class DietaController extends HttpServlet{
     //STAMPA EXCEL
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DropboxService dropboxService = new DropboxService();
-        dropboxService.downloadFile(dropboxFilePath, getServletContext().getRealPath("/WEB-INF"));
 
-        String filePath = getServletContext().getRealPath("/WEB-INF/tabella.xlsx");
+        // Costruisce il percorso completo della cartella "Diete" all'interno di WEB-INF
+        String dieteFolderPath = getServletContext().getRealPath("/WEB-INF/Diete");
+
+        // Verifica se la cartella "Diete" esiste, altrimenti la crea
+        File dieteFolder = new File(dieteFolderPath);
+        if (!dieteFolder.exists()) {
+            if (dieteFolder.mkdirs()) {
+                System.out.println("Cartella 'Diete' creata con successo: " + dieteFolderPath);
+            } else {
+                System.out.println("Errore nella creazione della cartella 'Diete': " + dieteFolderPath);
+            }
+        }
+
+        // Chiama la funzione di download passando il percorso della cartella "Diete"
+        dropboxService.downloadFile(dropboxFilePath+"/tabella.xlsx", dieteFolderPath+"/tabella.xlsx");
+
+        String filePath = getServletContext().getRealPath("/WEB-INF/Diete/tabella.xlsx");
         File file = new File(filePath);
 
         // Imposta il tipo di contenuto come HTML

@@ -23,6 +23,7 @@ public class DropboxService {
 
     public void uploadFile(String localFilePath, String dropboxFolderPath) {
         try {
+            System.out.println("Uploading file: " + dropboxFolderPath);
             // Verifica se la cartella esiste già su Dropbox
             try {
                 ListFolderResult result = client.files().listFolder("");
