@@ -20,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @WebServlet("/dieta")
 public class DietaController extends HttpServlet{
 
-    private String dropboxFilePath = "/PT_LINKER/dieteDropbox/tabella.xlsx";  // Percorso nel Dropbox
+    private String dropboxFilePath = "/PT_LINKER/dieteDropbox";  // Percorso nel Dropbox
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,7 +57,11 @@ public class DietaController extends HttpServlet{
 
 
         DropboxService dropboxService = new DropboxService();
-        dropboxService.uploadFile(path,dropboxFilePath);
+        try {
+            dropboxService.uploadFile(path,dropboxFilePath);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         DietaService dietaService = new DietaService();
         //dietaService.salvaDieta(dropboxFilePath,idP,idC);

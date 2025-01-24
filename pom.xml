@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.dropbox.core</groupId>
             <artifactId>dropbox-core-sdk</artifactId>
-            <version>5.4.0</version>
+            <version>5.4.0</version> <!-- Sostituisci con la versione più recente disponibile -->
         </dependency>
 
         <dependency>
