@@ -135,6 +135,25 @@ public class AutenticazioneDAO {
         }
     }
 
+    public int getIdProfessionista(){
+        String queryID="SELECT CODICE FROM PROFESSIONISTA ORDER BY CODICE DESC LIMIT 1";
+        int ultimoId = 0;
+        try {
+            PreparedStatement id = database.prepareStatement(queryID);
+            // Esegui la query
+            ResultSet rs = id.executeQuery();
+
+            // Memorizza il risultato in una variabile
+            if (rs.next()) {
+                ultimoId = rs.getInt("CODICE");
+                System.out.println("L'ultimo codice inserito è: " + ultimoId);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ultimoId;
+    }
+
     public boolean salvaCertificati( ArrayList<String> certificati) {
         DropboxService dbS= new DropboxService();
 
@@ -161,7 +180,7 @@ public class AutenticazioneDAO {
                 for (int i = 0; i < certificati.size(); i++) {
                     String certificato = certificati.get(i);  // certificato è una stringa che contiene il percorso del file
 
-                    dbS.uploadFile(certificato+"_"+ultimoId,"/PT_LINKER/ATTESTATI/");
+                    dbS.uploadFile(certificato,"/PT_LINKER/ATTESTATI");
 
                     // Inserisci il percorso del certificato nella tabella DOCUMENTI
                     psDocumenti.setInt(1, ultimoId);  // PROFESSIONISTA_CODICE

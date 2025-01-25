@@ -82,14 +82,14 @@ public class RegistrazioneServlet extends HttpServlet {
             if ("cliente".equals(ruolo)) {
                 salvaCliente(request, 0, nome, cognome, username, email, hashPass, dataNascita, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
             } else if ("personal_trainer".equals(ruolo) || "nutrizionista".equals(ruolo)) {
+                int idUltimoProfessionista= regService.getIdProfessionista();
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
-                salvaCertificati(request, certificatiPercorsi);
+                salvaCertificati(request, certificatiPercorsi,idUltimoProfessionista+1);
                 DropboxService dbS= new DropboxService();
                 if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
-                    Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, 0,certificatiPercorsi,false, ruolo);
-                    dbS.caricaAttestati(pr);
+                    Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, idUltimoProfessionista+1,certificatiPercorsi,false, ruolo);
                     regService.registraProfessionista(pr);
                     regService.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");
@@ -124,7 +124,7 @@ public class RegistrazioneServlet extends HttpServlet {
         }
     }
 
-    private void salvaCertificati(HttpServletRequest request, ArrayList<String> certificatiPercors) throws ServletException, IOException {
+    private void salvaCertificati(HttpServletRequest request, ArrayList<String> certificatiPercors, int id) throws ServletException, IOException {
         String UPLOAD_DIR = "/WEB-INF/certificati";
 
         // Ottieni il percorso assoluto della directory "certificati"
@@ -136,6 +136,8 @@ public class RegistrazioneServlet extends HttpServlet {
             uploadDir.mkdirs();
         }
 
+        int numCert=1;
+
         try {
             // Itera su tutti i file caricati
             for (Part part : request.getParts()) {
@@ -143,10 +145,26 @@ public class RegistrazioneServlet extends HttpServlet {
                 if (part.getName().equals("certificati") && part.getSize() > 0) {
                     // Ottieni il nome del file
                     String fileName = getFileName(part);
-                    certificatiPercors.add(uploadPath + File.separator + fileName);
+
+                    // Estrai l'estensione del file (es: ".pdf", ".xlsx")
+                    String fileExtension = "";
+                    int lastDotIndex = fileName.lastIndexOf('.');
+                    if (lastDotIndex > 0) {
+                        fileExtension = fileName.substring(lastDotIndex);
+                    }
+
+                    // Genera un nuovo nome per il file (ad esempio, con un timestamp)
+                    String newFileName = "certificato_" + id + "_" + numCert+fileExtension;
+                    numCert++;
+
+                    // Crea il percorso completo del file rinominato
+                    String newFilePath = uploadPath + File.separator + newFileName;
+                    System.out.println("newFilePath: " + newFilePath);
+
+                    certificatiPercors.add(newFilePath);
 
                     // Salva il file nella directory specificata
-                    part.write(uploadPath + File.separator + fileName);
+                    part.write(newFilePath);
                 }
             }
 

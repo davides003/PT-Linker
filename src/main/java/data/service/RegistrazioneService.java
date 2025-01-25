@@ -27,6 +27,11 @@ public class RegistrazioneService {
         return esito;
     }
 
+    public int getIdProfessionista(){
+        AutenticazioneDAO operazioni=new AutenticazioneDAO();
+        return operazioni.getIdProfessionista();
+    }
+
     public boolean registraCertificati(ArrayList<String> certificati){
         AutenticazioneDAO operazioni=new AutenticazioneDAO();
         boolean esito=operazioni.salvaCertificati(certificati);
