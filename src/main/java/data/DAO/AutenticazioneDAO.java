@@ -306,4 +306,37 @@ public class AutenticazioneDAO {
         return null;
     }
 
+    //HOME PROFESSIONISTA
+    public String getClienti(int id){
+        String query="SELECT c.CODICE,c.Nome, c.Cognome, c.Data_di_Nascita, MAX(d.Data_Scheda) AS Ultima_Dieta FROM CLIENTE c LEFT JOIN DIETA d ON c.CODICE = d.CLIENTE_CODICE AND d.PROFESSIONISTA_CODICE = ? WHERE c.CODICE IN (SELECT CLIENTE_CODICE FROM STORICO_PT WHERE PROFESSIONISTA_CODICE = ?) GROUP BY c.CODICE, c.Nome, c.Cognome, c.Data_di_Nascita;";
+        String result="<tbody>";
+        try(PreparedStatement ps=database.prepareStatement(query)){
+            ps.setInt(1, id);
+            ps.setInt(2, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result += "<tr>";
+                    result += "<td>" + rs.getString("Nome") + "</td>";
+                    result += "<td>" + rs.getString("Cognome") + "</td>";
+                    result += "<td>" + rs.getString("Data_di_Nascita") + "</td>";
+                    result += "<td>" + rs.getString("Ultima_Dieta") + "</td>";
+                    result +="<td><form action=\"ProfessionistaController\" method=\"post\" style=\"display:inline;\">" +
+                            "<input type=\"hidden\" name=\"action\" value=\"dieta\">" +
+                            "<input type=\"hidden\" name=\"clienteId\" value=\""+rs.getInt("CODICE")+"\">" +  // Id cliente (esempio)
+                            "<button type=\"submit\">Dieta</button>" +
+                            "</form></td>";
+                    result +="<td><form action=\"ProfessionistaController\" method=\"post\" style=\"display:inline;\">" +
+                            "<input type=\"hidden\" name=\"action\" value=\"pagamenti\">" +
+                            "<input type=\"hidden\" name=\"clienteId\" value=\""+rs.getInt("CODICE")+"\">" +  // Id cliente (esempio)
+                            "<button type=\"submit\">Pagamenti</button>" +
+                            "</form></td>";
+                    result += "</tr>";
+                }
+            }
+        }catch (SQLException e){
+
+        }
+        result += "</tbody>";
+        return result;
+    }
 }

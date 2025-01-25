@@ -183,54 +183,6 @@
 <script>
     let tabella;
 
-    // Funzione per creare una tabella di default con 7 colonne e 6 righe
-    /*function creaTabellaDefault() {
-        tabella = document.createElement("table");
-        const numColonne = 7;
-        const numRighe = 6;
-        const etichette = ["Colazione", "Merenda", "Pranzo", "Merenda", "Cena", "Merenda"];
-
-        // Creazione dell'intestazione della tabella
-        const thead = tabella.createTHead();
-        const headerRow = thead.insertRow();
-        headerRow.insertCell().textContent = "Pasto"; // Colonna per i nomi dei pasti
-        for (let i = 0; i < numColonne - 1; i++) {
-            const th = document.createElement("th");
-            th.textContent = "Colonna " + (i + 1);
-            headerRow.appendChild(th);
-        }
-        headerRow.insertCell().textContent = "Azione"; // Colonna per il bottone rimuovi
-
-        // Creazione del corpo della tabella
-        const tbody = tabella.createTBody();
-        for (let i = 0; i < numRighe; i++) {
-            const row = tbody.insertRow();
-            const cellPasto = row.insertCell();
-            cellPasto.textContent = etichette[i % etichette.length]; // Assegna i pasti a sinistra
-
-            for (let j = 0; j < numColonne - 1; j++) {
-                const cell = row.insertCell();
-                const input = document.createElement("input");
-                input.type = "text";
-                input.name = `cella_${i}_${j}`; // Aggiungi il name per ogni cella
-                input.value = `Cella ${i + 1}, ${j + 1}`; // Valore di esempio per ogni cella
-                cell.appendChild(input);
-            }
-
-            // Bottone per rimuovere la riga
-            const removeCell = row.insertCell();
-            const removeButton = document.createElement("button");
-            removeButton.textContent = "Rimuovi";
-            removeButton.classList.add("remove-row-btn");
-            removeButton.onclick = function() {
-                rimuoviRiga(row); // Aggiungi il listener per rimuovere la riga
-            };
-            removeCell.appendChild(removeButton);
-        }
-
-        document.getElementById("table-container").appendChild(tabella); // Aggiungi la tabella al contenitore
-    }*/
-
     // Funzione per svuotare una riga (anziché eliminarla) usando l'indice della riga
     function svuotaRiga(rowIndex) {
         const table = document.getElementById("tabella");  // Ottieni la tabella tramite il suo ID

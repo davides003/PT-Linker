@@ -1,5 +1,6 @@
 package business;
 
+import data.entity.Professionista;
 import data.service.DietaService;
 import data.service.DropboxService;
 import jakarta.servlet.RequestDispatcher;
@@ -11,6 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.*;
 import java.util.Enumeration;
+
+import jakarta.servlet.http.HttpSession;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -21,9 +24,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class DietaController extends HttpServlet{
 
     private String dropboxFilePath = "/PT_LINKER/dieteDropbox";  // Percorso nel Dropbox
+    private String idCliente;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Professionista professionista = (Professionista) request.getSession().getAttribute("utente");
+
         // Codice per salvare il file Excel
         System.out.println("Salva Excel");
         Workbook workbook = new XSSFWorkbook();
@@ -48,7 +54,7 @@ public class DietaController extends HttpServlet{
             }
         }
 
-        String path = getServletContext().getRealPath("/WEB-INF") + "/tabella.xlsx";
+        String path = getServletContext().getRealPath("/WEB-INF") + "/dieta_"+professionista.getId()+"_"+idCliente+".xlsx";
 
         try (FileOutputStream fos = new FileOutputStream(path)) {
             workbook.write(fos);
@@ -75,6 +81,12 @@ public class DietaController extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DropboxService dropboxService = new DropboxService();
 
+        Professionista professionista = (Professionista) request.getSession().getAttribute("utente");
+
+        // Memorizzo l'ID nella sessione
+        HttpSession session = request.getSession();
+        idCliente= (String) session.getAttribute("clienteId");
+
         // Costruisce il percorso completo della cartella "Diete" all'interno di WEB-INF
         String dieteFolderPath = getServletContext().getRealPath("/WEB-INF/Diete");
 
@@ -89,9 +101,10 @@ public class DietaController extends HttpServlet{
         }
 
         // Chiama la funzione di download passando il percorso della cartella "Diete"
-        dropboxService.downloadFile(dropboxFilePath+"/tabella.xlsx", dieteFolderPath+"/tabella.xlsx");
+        dropboxService.downloadFile(dropboxFilePath+"/dieta_"+professionista.getId()+"_"+idCliente+".xlsx", dieteFolderPath+"/dieta_"+professionista.getId()+"_"+idCliente+".xlsx");
 
-        String filePath = getServletContext().getRealPath("/WEB-INF/Diete/tabella.xlsx");
+        String filePath = getServletContext().getRealPath("/WEB-INF/Diete/dieta_"+professionista.getId()+"_"+idCliente+".xlsx");
+        System.out.println("/WEB-INF/Diete/dieta_"+professionista.getId()+"_"+idCliente+".xlsx");
         File file = new File(filePath);
 
         // Imposta il tipo di contenuto come HTML
