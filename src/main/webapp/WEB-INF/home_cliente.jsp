@@ -135,10 +135,12 @@
         <div>400 x 400</div>
         <div>MY Nutritionist</div>
     </div>
-    <div class="card">
-        <div>400 x 400</div>
-        <div>Settings</div>
-    </div>
+    <a href="settings.jsp">
+        <div class="card" >
+            <div>400 x 400</div>
+            <div>Settings</div>
+        </div>
+    </a>
     <div class="card">
         <div>400 x 400</div>
         <div>Workout</div>
