@@ -31,26 +31,26 @@
         }
 
         .logout-container .logout-button {
-            background-color: #ff3333; /* Colore del bottone */
+            background-color: #ff3333;
             color: white;
             border: none;
-            border-radius: 20px; /* Bordi arrotondati */
-            padding: 10px 20px; /* Spaziatura interna */
+            border-radius: 20px;
+            padding: 10px 20px;
             font-size: 1rem;
             font-weight: bold;
-            cursor: pointer; /* Cambia il cursore */
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Animazione su hover */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombra */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .logout-container .logout-button:hover {
-            background-color: #e62e2e; /* Colore al passaggio del mouse */
-            transform: scale(1.05); /* Leggero ingrandimento */
+            background-color: #e62e2e;
+            transform: scale(1.05);
         }
 
         .logout-container .logout-button:active {
-            background-color: #cc2929; /* Colore quando cliccato */
-            transform: scale(0.98); /* Effetto pressione */
+            background-color: #cc2929;
+            transform: scale(0.98);
         }
 
         .search-bar {
@@ -218,38 +218,9 @@
             <label for="filter">Filter</label>
         </div>
 
-        <table>
-            <thead>
-            <tr>
-                <th>User</th>
-                <th>Has a Diet</th>
-                <th>Last Diet</th>
-                <th>He Paid</th>
-                <th>Last Paid</th>
-            </tr>
-            </thead>
+        <table id="user-table">
             <tbody>
-            <tr>
-                <td>Carletto03</td>
-                <td>Yes</td>
-                <td>10/12/2024</td>
-                <td>Yes</td>
-                <td>10/12/2024</td>
-            </tr>
-            <tr>
-                <td>Andrea03</td>
-                <td>No</td>
-                <td>---</td>
-                <td>No</td>
-                <td>---</td>
-            </tr>
-            <tr>
-                <td>Carmine03</td>
-                <td>No</td>
-                <td>10/07/2024</td>
-                <td>No</td>
-                <td>---</td>
-            </tr>
+            <!-- Il contenuto sarà aggiornato dinamicamente -->
             </tbody>
         </table>
     </div>
@@ -260,5 +231,29 @@
         <a href="ProfiloSettingServlet"><img src="settings-placeholder.png" alt="Settings"></a>
     </div>
 </div>
+
+<!-- JavaScript -->
+<script>
+    async function fetchTableData() {
+        try {
+            // Invia una richiesta GET alla servlet
+            const response = await fetch('ProfessionistaController');
+            if (!response.ok) {
+                throw new Error('Errore durante la richiesta alla servlet');
+            }
+
+            // Recupera il contenuto della tabella dalla servlet
+            const data = await response.text();
+
+            // Aggiorna il contenuto del tbody
+            document.querySelector('#user-table tbody').innerHTML = data;
+        } catch (error) {
+            console.error('Errore:', error);
+        }
+    }
+
+    // Chiama la funzione per aggiornare la tabella quando la pagina è caricata
+    window.onload = fetchTableData;
+</script>
 </body>
 </html>

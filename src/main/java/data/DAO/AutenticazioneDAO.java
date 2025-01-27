@@ -3,6 +3,7 @@ package data.DAO;
 import data.entity.Cliente;
 import data.entity.Professionista;
 import data.entity.Utente;
+import data.service.DropboxService;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -134,7 +135,28 @@ public class AutenticazioneDAO {
         }
     }
 
+    public int getIdProfessionista(){
+        String queryID="SELECT CODICE FROM PROFESSIONISTA ORDER BY CODICE DESC LIMIT 1";
+        int ultimoId = 0;
+        try {
+            PreparedStatement id = database.prepareStatement(queryID);
+            // Esegui la query
+            ResultSet rs = id.executeQuery();
+
+            // Memorizza il risultato in una variabile
+            if (rs.next()) {
+                ultimoId = rs.getInt("CODICE");
+                System.out.println("L'ultimo codice inserito è: " + ultimoId);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ultimoId;
+    }
+
     public boolean salvaCertificati( ArrayList<String> certificati) {
+        DropboxService dbS= new DropboxService();
+
         String queryID="SELECT CODICE FROM PROFESSIONISTA ORDER BY CODICE DESC LIMIT 1";
         String queryDocumenti = "INSERT INTO DOCUMENTI (PROFESSIONISTA_CODICE, Numero, Percorso_Documenti) " +
                 "VALUES (?, ?, ?)";
@@ -157,6 +179,8 @@ public class AutenticazioneDAO {
             PreparedStatement psDocumenti = database.prepareStatement(queryDocumenti);
                 for (int i = 0; i < certificati.size(); i++) {
                     String certificato = certificati.get(i);  // certificato è una stringa che contiene il percorso del file
+
+                    dbS.uploadFile(certificato,"/PT_LINKER/ATTESTATI");
 
                     // Inserisci il percorso del certificato nella tabella DOCUMENTI
                     psDocumenti.setInt(1, ultimoId);  // PROFESSIONISTA_CODICE
@@ -282,4 +306,37 @@ public class AutenticazioneDAO {
         return null;
     }
 
+    //HOME PROFESSIONISTA
+    public String getClienti(int id){
+        String query="SELECT c.CODICE,c.Nome, c.Cognome, c.Data_di_Nascita, MAX(d.Data_Scheda) AS Ultima_Dieta FROM CLIENTE c LEFT JOIN DIETA d ON c.CODICE = d.CLIENTE_CODICE AND d.PROFESSIONISTA_CODICE = ? WHERE c.CODICE IN (SELECT CLIENTE_CODICE FROM STORICO_PT WHERE PROFESSIONISTA_CODICE = ?) GROUP BY c.CODICE, c.Nome, c.Cognome, c.Data_di_Nascita;";
+        String result="<tbody>";
+        try(PreparedStatement ps=database.prepareStatement(query)){
+            ps.setInt(1, id);
+            ps.setInt(2, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result += "<tr>";
+                    result += "<td>" + rs.getString("Nome") + "</td>";
+                    result += "<td>" + rs.getString("Cognome") + "</td>";
+                    result += "<td>" + rs.getString("Data_di_Nascita") + "</td>";
+                    result += "<td>" + rs.getString("Ultima_Dieta") + "</td>";
+                    result +="<td><form action=\"ProfessionistaController\" method=\"post\" style=\"display:inline;\">" +
+                            "<input type=\"hidden\" name=\"action\" value=\"dieta\">" +
+                            "<input type=\"hidden\" name=\"clienteId\" value=\""+rs.getInt("CODICE")+"\">" +  // Id cliente (esempio)
+                            "<button type=\"submit\">Dieta</button>" +
+                            "</form></td>";
+                    result +="<td><form action=\"ProfessionistaController\" method=\"post\" style=\"display:inline;\">" +
+                            "<input type=\"hidden\" name=\"action\" value=\"pagamenti\">" +
+                            "<input type=\"hidden\" name=\"clienteId\" value=\""+rs.getInt("CODICE")+"\">" +  // Id cliente (esempio)
+                            "<button type=\"submit\">Pagamenti</button>" +
+                            "</form></td>";
+                    result += "</tr>";
+                }
+            }
+        }catch (SQLException e){
+
+        }
+        result += "</tbody>";
+        return result;
+    }
 }
