@@ -257,7 +257,7 @@
     <div class="right-panel">
         <img src="balance-placeholder.png" alt="Balance">
         <img src="certifications-placeholder.png" alt="Certifications">
-        <img src="settings-placeholder.png" alt="Settings">
+        <a href="ProfiloSettingServlet"><img src="settings-placeholder.png" alt="Settings"></a>
     </div>
 </div>
 </body>
