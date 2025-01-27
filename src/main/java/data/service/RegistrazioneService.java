@@ -4,7 +4,6 @@ import data.DAO.AutenticazioneDAO;
 import data.entity.Cliente;
 import data.entity.Professionista;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class RegistrazioneService {
@@ -36,5 +35,15 @@ public class RegistrazioneService {
         AutenticazioneDAO operazioni=new AutenticazioneDAO();
         boolean esito=operazioni.salvaCertificati(certificati);
         return esito;
+    }
+
+    public ArrayList<Professionista> getProfessionista(){
+        AutenticazioneDAO operazioni=new AutenticazioneDAO();
+        return operazioni.getProfessionista();
+    }
+
+    public void abbinaCliente(String pr){
+        AutenticazioneDAO operazioni=new AutenticazioneDAO();
+        operazioni.abbinaCliente(pr);
     }
 }

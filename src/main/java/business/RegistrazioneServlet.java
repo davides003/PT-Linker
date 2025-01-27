@@ -1,5 +1,6 @@
 package business;
 
+import com.google.gson.Gson;
 import data.entity.Cliente;
 import data.entity.Professionista;
 import data.service.DropboxService;
@@ -35,6 +36,13 @@ import java.util.Collection;
 public class RegistrazioneServlet extends HttpServlet {
     // Gestisce la navigazione e l'invio del form
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RegistrazioneService rs = new RegistrazioneService();
+        // Ottieni l'elenco dei nutrizionisti
+        ArrayList<Professionista> nutrizionisti = rs.getProfessionista();
+
+        // Imposta la lista dei nutrizionisti come attributo della request
+        request.setAttribute("nutrizionisti", nutrizionisti);
+
         // Se il metodo è GET, l'utente sta cercando di navigare alla pagina di login
         // Quindi mostriamo il form di login
         request.getRequestDispatcher("WEB-INF/registrazione.jsp").forward(request, response);
@@ -115,12 +123,16 @@ public class RegistrazioneServlet extends HttpServlet {
         circonferenzaGambaDestra = Float.parseFloat(request.getParameter("circonferenza-gamba-destra"));
         circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
         circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
+        String codicePr=request.getParameter("nutrizionista");
+
 
         Cliente cliente = new Cliente(nome, cognome, username, email, hashPass, dataNascita, id, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
         RegistrazioneService regService = new RegistrazioneService();
         boolean esitoReg = regService.registraCliente(cliente);
         if (!esitoReg) {
             System.out.println("FAIL registrazione cliente");
+        }else{
+            regService.abbinaCliente(codicePr);
         }
     }
 

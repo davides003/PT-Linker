@@ -74,6 +74,8 @@ public class DietaController extends HttpServlet{
         DietaService dietaService = new DietaService();
         dietaService.salvaDieta(dropboxFilePath,professionista.getId(), Integer.parseInt(idcliente));
 
+        professionista.notificaCliente(idcliente,"aggiunta/modificata dieta");
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);
     }

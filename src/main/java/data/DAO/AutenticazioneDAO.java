@@ -1,16 +1,13 @@
 package data.DAO;
 
 import data.entity.Cliente;
+import data.entity.Osservatore;
 import data.entity.Professionista;
 import data.entity.Utente;
 import data.service.DropboxService;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class AutenticazioneDAO {
@@ -223,6 +220,136 @@ public class AutenticazioneDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ArrayList<Professionista> getProfessionista() {
+        ArrayList<Professionista> professionisti = new ArrayList<>();
+
+        // Query SQL per recuperare tutti i professionisti
+        String query = "SELECT * FROM PROFESSIONISTA";
+
+        try (Statement stmt = database.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            // Itera sui risultati della query
+            while (rs.next()) {
+                int codice = rs.getInt("CODICE");
+                String nome = rs.getString("Nome");
+                String cognome = rs.getString("Cognome");
+                String dataDiNascita = String.valueOf(rs.getDate("Data_di_Nascita"));
+                String email = rs.getString("E_Mail");
+                String username = rs.getString("Username");
+                String passwordDb = rs.getString("Password");
+                String tipo = rs.getString("Tipo");
+                boolean abilitato = rs.getBoolean("Abilitato");
+
+                if(tipo.equals("nutrizionista")) {
+                    // Crea un nuovo oggetto Professionista e aggiungilo alla lista
+                    Professionista professionista = new Professionista(nome, cognome, username, email, passwordDb, dataDiNascita,
+                            codice,null, abilitato, tipo);
+                    professionisti.add(professionista);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return professionisti;
+    }
+
+    public int getIdCliente(){
+        String queryID="SELECT CODICE FROM Cliente ORDER BY CODICE DESC LIMIT 1";
+        int ultimoId = 0;
+        try {
+            PreparedStatement id = database.prepareStatement(queryID);
+            // Esegui la query
+            ResultSet rs = id.executeQuery();
+
+            // Memorizza il risultato in una variabile
+            if (rs.next()) {
+                ultimoId = rs.getInt("CODICE");
+                System.out.println("L'ultimo codice inserito è: " + ultimoId);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ultimoId;
+    }
+
+    public void abbinaCliente(String pr){
+        String id= String.valueOf(getIdCliente());
+        System.out.println("id cliente: "+id+"  id professionista: "+pr);
+        PreparedStatement stmt = null;
+
+        try {
+            // Prepara la query SQL
+            String sql = "INSERT INTO STORICO_PT (CLIENTE_CODICE, Numero, PROFESSIONISTA_CODICE) VALUES (?, 0, ?)";
+            stmt = database.prepareStatement(sql);
+
+            // Imposta i parametri nella query
+            stmt.setString(1,id);
+            stmt.setString(2, pr);
+
+            // Esegui la query di inserimento
+            stmt.executeUpdate();
+
+            System.out.println("Abbinamento cliente-professionista avvenuto con successo.");
+
+        } catch (SQLException e) {
+            // Gestisci eventuali errori
+            System.err.println("Errore durante l'inserimento nel database: " + e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException e) {
+                System.err.println("Errore durante la chiusura dello statement: " + e.getMessage());
+            }
+        }
+    }
+
+    public ArrayList<Osservatore> getElencoClienti(int id){
+        ArrayList<Osservatore> clienti = new ArrayList<>();
+        String query = "SELECT C.CODICE, C.Nome, C.Cognome, C.Data_di_Nascita, C.Username, C.E_Mail, " +
+                "C.Password, C.Altezza, C.Peso, C.Circonferenza_Giro_Vita, " +
+                "C.Circonferenza_Braccio_Sx, C.Circonferenza_Braccio_Dx, C.Circonferenza_Torace, " +
+                "C.Circonferenza_Gamba_Sx, C.Circonferenza_Gamba_Dx " +
+                "FROM CLIENTE C " +
+                "JOIN STORICO_PT S ON C.CODICE = S.CLIENTE_CODICE " +
+                "WHERE S.PROFESSIONISTA_CODICE = ?";
+
+        try (PreparedStatement stmt = database.prepareStatement(query)) {
+            stmt.setInt(1, id); // Imposta l'ID del professionista nel query
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int codice = rs.getInt("CODICE");
+                String nome = rs.getString("Nome");
+                String cognome = rs.getString("Cognome");
+                String dataDiNascita = String.valueOf(rs.getDate("Data_di_Nascita"));
+                String username = rs.getString("Username");
+                String email = rs.getString("E_Mail");
+                String password = rs.getString("Password");
+                float altezza = rs.getFloat("Altezza");
+                float peso = rs.getFloat("Peso");
+                float girovita = rs.getFloat("Circonferenza_Giro_Vita");
+                float braccioSx = rs.getFloat("Circonferenza_Braccio_Sx");
+                float braccioDx = rs.getFloat("Circonferenza_Braccio_Dx");
+                float torace = rs.getFloat("Circonferenza_Torace");
+                float gambaSx = rs.getFloat("Circonferenza_Gamba_Sx");
+                float gambaDx = rs.getFloat("Circonferenza_Gamba_Dx");
+
+                // Crea un nuovo oggetto Osservatore per ogni cliente con tutti i dati
+                Cliente cliente = new Cliente( nome, cognome, username, email,
+                        password,dataDiNascita,codice, altezza, peso, girovita, braccioDx, braccioSx, torace, gambaDx,gambaSx );
+                clienti.add(cliente); // Aggiungi il cliente all'elenco
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return clienti;
     }
 
     //LoginDAO

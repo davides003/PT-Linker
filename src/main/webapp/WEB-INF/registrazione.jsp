@@ -1,3 +1,5 @@
+<%@ page import="data.entity.Professionista" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -226,8 +228,35 @@
                 <div class="form-group">
                     <label for="circonferenza-torace">Circonferenza Torace:</label>
                     <input type="text" id="circonferenza-torace" name="circonferenza-torace" required>
-                </div>
-            `;
+                </div><div class="form-group">
+                <label for="nutrizionista">Nutrizionista:</label>
+                <select id="nutrizionista" name="nutrizionista" required>
+                    <option value="">Seleziona un nutrizionista</option>
+
+                    <%
+                        ArrayList<Professionista> nutrizionisti = (ArrayList<Professionista>) request.getAttribute("nutrizionisti");
+                        for (Professionista nutrizionista : nutrizionisti) {
+                    %>
+                        <option value="<%= nutrizionista.getId() %>">
+                            <%= nutrizionista.getNome() + " " + nutrizionista.getCognome() %>
+                        </option>
+                    <% } %>
+                </select>
+            </div>
+        `;
+            // Ricevi il JSON dei nutrizionisti dalla servlet
+            //var nutrizionisti = JSON.parse('${nutrizionisti}');
+
+            // Recupera il select per nutrizionisti
+            //var nutrizionistiSelect = document.getElementById('nutrizionista');
+
+            // Aggiungi dinamicamente le opzioni al select
+            /*nutrizionisti.forEach(function(nutrizionista) {
+                var option = document.createElement('option');
+                option.value = nutrizionista.;  // Utilizza il codice del nutrizionista
+                option.textContent = nutrizionista.nome + ' ' + nutrizionista.cognome;  // Nome completo
+                nutrizionistiSelect.appendChild(option);
+            });*/
         } else if (this.value === "personal_trainer" || this.value === "nutrizionista") {
             additionalFieldsContainer.innerHTML = `
                 <div class="form-group">

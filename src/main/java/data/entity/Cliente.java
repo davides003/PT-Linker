@@ -1,6 +1,6 @@
 package data.entity;
 
-public class Cliente extends Utente {
+public class Cliente extends Utente implements Osservatore{
     private float altezza;
     private float peso;
     private float larghezzaGirovita;
@@ -109,5 +109,10 @@ public class Cliente extends Utente {
             throw new IllegalArgumentException("La circonferenza della gamba sinistra non può essere negativa.");
         }
         this.circonferenzaGambaSx = circonferenzaGambaSx;
+    }
+
+    @Override
+    public void aggiorna(String messaggio) {
+        System.out.println(super.getNome()+" ha ricevuto una notifica: "+messaggio);
     }
 }
