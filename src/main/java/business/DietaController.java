@@ -25,7 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class DietaController extends HttpServlet{
 
     private String dropboxFilePath = "/PT_LINKER/dieteDropbox";  // Percorso nel Dropbox
-    private String idCliente;
+    private String idcliente;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,7 +55,7 @@ public class DietaController extends HttpServlet{
             }
         }
 
-        String path = getServletContext().getRealPath("/WEB-INF") + "/dieta_"+professionista.getId()+"_"+idCliente+".xlsx";
+        String path = getServletContext().getRealPath("/WEB-INF") + "/dieta_"+professionista.getId()+"_"+idcliente+".xlsx";
 
         try (FileOutputStream fos = new FileOutputStream(path)) {
             workbook.write(fos);
@@ -72,7 +72,7 @@ public class DietaController extends HttpServlet{
         }
 
         DietaService dietaService = new DietaService();
-        dietaService.salvaDieta(dropboxFilePath,professionista.getId(), Integer.parseInt(idCliente));
+        dietaService.salvaDieta(dropboxFilePath,professionista.getId(), Integer.parseInt(idcliente));
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);
@@ -83,7 +83,7 @@ public class DietaController extends HttpServlet{
         // Crea il Facade
         DietaFacade dietaFacade = new DietaFacade();
         Professionista professionista = (Professionista) request.getSession().getAttribute("utente");
-        idCliente = (String) request.getSession().getAttribute("clienteId");
+        idcliente = (String) request.getSession().getAttribute("clienteId");
 
         // Percorso della cartella "Diete"
         String dieteFolderPath = getServletContext().getRealPath("/WEB-INF/Diete");
@@ -91,8 +91,8 @@ public class DietaController extends HttpServlet{
 
         // Percorso per il file su Dropbox
         String dropboxFilePath = "/path/to/dropbox";
-        String dropboxFilePathWithName = dropboxFilePath + "/dieta_" + professionista.getId() + "_" + idCliente + ".xlsx";
-        String localFilePath = dieteFolderPath + "/dieta_" + professionista.getId() + "_" + idCliente + ".xlsx";
+        String dropboxFilePathWithName = dropboxFilePath + "/dieta_" + professionista.getId() + "_" + idcliente + ".xlsx";
+        String localFilePath = dieteFolderPath + "/dieta_" + professionista.getId() + "_" + idcliente + ".xlsx";
 
         // Scarica il file da Dropbox
         dietaFacade.downloadDietaFile(dropboxFilePathWithName, localFilePath);
