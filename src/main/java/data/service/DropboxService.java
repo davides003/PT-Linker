@@ -1,5 +1,6 @@
 package data.service;
 
+import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.*;
@@ -14,7 +15,7 @@ import java.io.OutputStream;
 public class DropboxService {
 
     // Attributo per il token di accesso
-    private String accessToken="sl.CFO0F3dDQRv9fGKWNVIgMrjfvei-hU4xPCLycQyrm3SktS2sZmTgZGe87B5tsbaGVdFrNcRAJNKPOabto9AT-9VDWRofHb6sA6crxz-O32Pl9RpAORANDy5GAm5TY6td85gkJ-rMd81H";
+    private String accessToken="sl.CFXEbrDtrlNVxeYNVq1LD1DTuOHclDZSRl031Qa0MFWoM77ejNzzSHy1uee6tmo1Lj_xtCUrdcAIqYUzdKiFsF5dqgXKLl_6QWh35h3KYPPXKfMao4Zq5BaNhJwKNpE2pk_skKpbPbQc";
 
     private DbxClientV2 client;
 
@@ -81,20 +82,30 @@ public class DropboxService {
     }
 
     // Metodo per scaricare un file da Dropbox
-    public void downloadFile(String dropboxFilePath, String localFilePath) {
+    public boolean downloadFile(String dropboxFilePath, String localFilePath){
+        boolean result = false;
         try {
-            // Crea un OutputStream per scrivere il file localmente
-            try (OutputStream out = new FileOutputStream(localFilePath)) {
-                // Scarica il file da Dropbox
-                FileMetadata metadata = client.files().download(dropboxFilePath)
-                        .download(out);
-                System.out.println("File scaricato con successo: " + metadata.getPathLower());
-            } catch (Exception e) {
-                System.out.println("Errore durante il download del file: " + e.getMessage());
-                e.printStackTrace();
+            Metadata metadat = client.files().getMetadata(dropboxFilePath);
+            if (metadat != null) {
+                try {
+                    // Crea un OutputStream per scrivere il file localmente
+                    try (OutputStream out = new FileOutputStream(localFilePath)) {
+                        // Scarica il file da Dropbox
+                        FileMetadata metadata = client.files().download(dropboxFilePath)
+                                .download(out);
+                        System.out.println("File scaricato con successo: " + metadata.getPathLower());
+                    } catch (Exception e) {
+                        System.out.println("Errore durante il download del file: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                result= true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch(DbxException e){
+            result= false;
         }
+        return result;
     }
 }

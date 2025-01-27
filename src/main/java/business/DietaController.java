@@ -1,6 +1,7 @@
 package business;
 
 import data.entity.Professionista;
+import data.service.DietaFacade;
 import data.service.DietaService;
 import data.service.DropboxService;
 import jakarta.servlet.RequestDispatcher;
@@ -71,14 +72,64 @@ public class DietaController extends HttpServlet{
         }
 
         DietaService dietaService = new DietaService();
-        //dietaService.salvaDieta(dropboxFilePath,idP,idC);
+        dietaService.salvaDieta(dropboxFilePath,professionista.getId(), Integer.parseInt(idCliente));
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);
     }
 
-    //STAMPA EXCEL
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Crea il Facade
+        DietaFacade dietaFacade = new DietaFacade();
+        Professionista professionista = (Professionista) request.getSession().getAttribute("utente");
+        idCliente = (String) request.getSession().getAttribute("clienteId");
+
+        // Percorso della cartella "Diete"
+        String dieteFolderPath = getServletContext().getRealPath("/WEB-INF/Diete");
+        dietaFacade.ensureLocalFolderExists(dieteFolderPath); // Crea la cartella se non esiste
+
+        // Percorso per il file su Dropbox
+        String dropboxFilePath = "/path/to/dropbox";
+        String dropboxFilePathWithName = dropboxFilePath + "/dieta_" + professionista.getId() + "_" + idCliente + ".xlsx";
+        String localFilePath = dieteFolderPath + "/dieta_" + professionista.getId() + "_" + idCliente + ".xlsx";
+
+        // Scarica il file da Dropbox
+        dietaFacade.downloadDietaFile(dropboxFilePathWithName, localFilePath);
+
+        // Controlla se il file esiste
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        if (new File(localFilePath).exists()) {
+            // Se il file esiste, genera e visualizza la tabella HTML dal file Excel
+            String htmlTable = dietaFacade.generateHtmlTableFromExcel(new File(localFilePath));
+            out.println(htmlTable);
+        } else {
+            // Se il file non esiste, visualizza una tabella vuota
+            out.println("<html><body>");
+            out.println("<form method='post' action='dieta'>");
+            out.println("<table id='tabella'>");
+            out.println("<tr><th>Tipo Pasti</th><th>Lunedì</th><th>Martedì</th><th>Mercoledì</th><th>Giovedì</th><th>Venerdì</th><th>Sabato</th><th>Domenica</th></tr>");
+            String[] tipiPasti = {"Colazione", "Merenda", "Pranzo", "Merenda", "Cena", "Merenda"};
+            for (int rowNum = 0; rowNum < 6; rowNum++) {
+                out.println("<tr>");
+                out.println("<td>" + tipiPasti[rowNum] + "</td>");
+                for (int colNum = 0; colNum < 7; colNum++) {
+                    out.println("<td><input type='text' name='cella_" + rowNum + "_" + colNum + "' id='cella_" + rowNum + "_" + colNum + "' value=''></td>");
+                }
+                out.println("<td><button type='button' onclick='svuotaRiga(" + rowNum + ")'>-</button></td>");
+                out.println("</tr>");
+            }
+            out.println("</table>");
+            out.println("</form>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    //STAMPA EXCEL
+    /*protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DropboxService dropboxService = new DropboxService();
 
         Professionista professionista = (Professionista) request.getSession().getAttribute("utente");
@@ -221,10 +272,9 @@ public class DietaController extends HttpServlet{
             }
 
             out.println("</table>");
-            out.println("<input type='submit' value='Invio'>");
             out.println("</form>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    }*/
 }
