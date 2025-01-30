@@ -1,18 +1,32 @@
 package data.entity;
+import data.entity.*;
+
 
 public class Progressi {
     private int idCliente,idProgresso;
     private String foto;
     private String descrizione;
-    private String misureCliente;
+    private float peso;
+    private float larghezzaGirovita;
+    private float circonferenzaBracciaDx;
+    private float circonferenzaBracciaSx;
+    private float circonferenzaTorace;
+    private float circonferenzaGambaDx;
+    private float circonferenzaGambaSx;
 
     // Costruttore
-    public Progressi(int idCliente, String foto, String descrizione, String misureCliente, int idProgresso) {
+    public Progressi(int idCliente, String foto, String descrizione, int idProgresso, float peso, float larghezzaGirovita, float circonferenzaBracciaDx, float circonferenzaBracciaSx, float circonferenzaTorace, float circonferenzaGambaDx, float circonferenzaGambaSx) {
         this.idProgresso = idProgresso;
         setIdCliente(idCliente);
         setFoto(foto);
         setDescrizione(descrizione);
-        setMisureCliente(misureCliente);
+        setPeso(peso);
+        setLarghezzaGirovita(larghezzaGirovita);
+        setCirconferenzaBracciaDx(circonferenzaBracciaDx);
+        setCirconferenzaBracciaSx(circonferenzaBracciaSx);
+        setCirconferenzaTorace(circonferenzaTorace);
+        setCirconferenzaGambaDx(circonferenzaGambaDx);
+        setCirconferenzaGambaSx(circonferenzaGambaSx);
     }
 
     // Getters e Setters
@@ -49,15 +63,81 @@ public class Progressi {
         this.descrizione = descrizione;
     }
 
-    public String getMisureCliente() {
-        return misureCliente;
+    public float getPeso() {
+        return peso;
     }
 
-    public void setMisureCliente(String misureCliente) {
-        if (misureCliente == null || misureCliente.isEmpty()) {
-            throw new IllegalArgumentException("Le misure del cliente non possono essere vuote.");
+    public void setPeso(float peso) {
+        if (peso <= 0) {
+            throw new IllegalArgumentException("Il peso deve essere maggiore di 0.");
         }
-        this.misureCliente = misureCliente;
+        this.peso = peso;
+    }
+
+    public float getLarghezzaGirovita() {
+        return larghezzaGirovita;
+    }
+
+    public void setLarghezzaGirovita(float larghezzaGirovita) {
+        if (larghezzaGirovita < 0) {
+            throw new IllegalArgumentException("La larghezza girovita non può essere negativa.");
+        }
+        this.larghezzaGirovita = larghezzaGirovita;
+    }
+
+    public float getCirconferenzaBracciaDx() {
+        return circonferenzaBracciaDx;
+    }
+
+    public void setCirconferenzaBracciaDx(float circonferenzaBracciaDx) {
+        if (circonferenzaBracciaDx < 0) {
+            throw new IllegalArgumentException("La circonferenza del braccio destro non può essere negativa.");
+        }
+        this.circonferenzaBracciaDx = circonferenzaBracciaDx;
+    }
+
+    public float getCirconferenzaBracciaSx() {
+        return circonferenzaBracciaSx;
+    }
+
+    public void setCirconferenzaBracciaSx(float circonferenzaBracciaSx) {
+        if (circonferenzaBracciaSx < 0) {
+            throw new IllegalArgumentException("La circonferenza del braccio sinistro non può essere negativa.");
+        }
+        this.circonferenzaBracciaSx = circonferenzaBracciaSx;
+    }
+
+    public float getCirconferenzaTorace() {
+        return circonferenzaTorace;
+    }
+
+    public void setCirconferenzaTorace(float circonferenzaTorace) {
+        if (circonferenzaTorace < 0) {
+            throw new IllegalArgumentException("La circonferenza del torace non può essere negativa.");
+        }
+        this.circonferenzaTorace = circonferenzaTorace;
+    }
+
+    public float getCirconferenzaGambaDx() {
+        return circonferenzaGambaDx;
+    }
+
+    public void setCirconferenzaGambaDx(float circonferenzaGambaDx) {
+        if (circonferenzaGambaDx < 0) {
+            throw new IllegalArgumentException("La circonferenza della gamba destra non può essere negativa.");
+        }
+        this.circonferenzaGambaDx = circonferenzaGambaDx;
+    }
+
+    public float getCirconferenzaGambaSx() {
+        return circonferenzaGambaSx;
+    }
+
+    public void setCirconferenzaGambaSx(float circonferenzaGambaSx) {
+        if (circonferenzaGambaSx < 0) {
+            throw new IllegalArgumentException("La circonferenza della gamba sinistra non può essere negativa.");
+        }
+        this.circonferenzaGambaSx = circonferenzaGambaSx;
     }
 
     public int getIdProgresso() {
