@@ -66,40 +66,89 @@
     <h2>Dettagli Progressi</h2>
     <div class="data-box">
         <label>Peso:</label>
-        <span id="peso">-- kg</span>
+        <span id="peso">--kg</span>
     </div>
     <div class="data-box">
         <label>Larghezza girovita:</label>
-        <span id="girovita">-- cm</span>
+        <span id="girovita">--cm</span>
     </div>
     <div class="data-box">
         <label>Circonferenza braccio dx:</label>
-        <span id="braccioDx">-- cm</span>
+        <span id="braccioDx">--cm</span>
     </div>
     <div class="data-box">
         <label>Circonferenza braccio sx:</label>
-        <span id="braccioSx">-- cm</span>
+        <span id="braccioSx">--cm</span>
     </div>
     <div class="data-box">
         <label>Circonferenza torace:</label>
-        <span id="torace">-- cm</span>
+        <span id="torace">--cm</span>
     </div>
     <div class="data-box">
         <label>Circonferenza gamba dx:</label>
-        <span id="gambaDx">-- cm</span>
+        <span id="gambaDx">--cm</span>
     </div>
     <div class="data-box">
         <label>Circonferenza gamba sx:</label>
-        <span id="gambaSx">-- cm</span>
+        <span id="gambaSx">--cm</span>
     </div>
     <div class="data-box">
         <label>Descrizione delle problematiche:</label>
-        <p id="descrizione">--</p>
+        <p id="descrizione">
+        </p>
     </div>
-    <div class="photo">
+    <div class="photo" id="foto">
         <label>Foto:</label>
-        <img id="foto" src="placeholder-image.png" alt="Foto del progresso">
+
     </div>
 </div>
+<script>
+    window.onload = function() {
+        fetch('progressiController')
+            .then(response => response.json()) // Parsea la risposta JSON
+            .then(data => {
+                // Ora "data" è l'oggetto Progresso deserializzato
+                // Puoi accedere ai campi dell'oggetto come "data.peso", "data.descrizione", ecc.
+
+                // Esempio di come visualizzare alcuni campi nell'interfaccia
+                document.getElementById("peso").innerText = data.peso + " kg";
+                document.getElementById("girovita").innerText = data.larghezzaGirovita + " cm";
+                document.getElementById("braccioDx").innerText = data.circonferenzaBracciaDx + " cm";
+                document.getElementById("braccioSx").innerText = data.circonferenzaBracciaSx + " cm";
+                document.getElementById("torace").innerText = data.circonferenzaTorace + " cm";
+                document.getElementById("gambaDx").innerText = data.circonferenzaGambaDx + " cm";
+                document.getElementById("gambaSx").innerText = data.circonferenzaGambaSx + " cm";
+                document.getElementById("descrizione").innerText = data.descrizione;
+
+                // Se ci sono immagini, ad esempio
+                if (data.percorsiFoto && data.percorsiFoto.length > 0) {
+                    let percorsoImmagine = '${pageContext.request.contextPath}/' + data.percorsiFoto[0];
+
+                    // Rimuove eventuali doppie barre (//) nel percorso generato
+                    percorsoImmagine = percorsoImmagine.replace(/\/+/g, '/');
+
+                    console.log("Percorso immagine:", percorsoImmagine); // Debug
+
+                    // Creazione dell'elemento <img>
+                    let img = document.createElement("img");
+                    img.src = percorsoImmagine;
+                    img.alt = "Foto progresso";
+                    img.style.width = "700px"; // Opzionale: imposta dimensioni
+
+
+                    // Trova il div con id="fotoContainer" e aggiunge l'immagine
+                    let divFoto = document.getElementById("foto");
+                    if (divFoto) {
+                        divFoto.appendChild(img);
+                    } else {
+                        console.error("Div con id='foto' non trovato");
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("Errore durante la chiamata alla servlet:", error);
+            });
+    };
+</script>
 </body>
 </html>

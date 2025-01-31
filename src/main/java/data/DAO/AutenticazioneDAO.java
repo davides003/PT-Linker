@@ -243,7 +243,7 @@ public class AutenticazioneDAO {
                 String tipo = rs.getString("Tipo");
                 boolean abilitato = rs.getBoolean("Abilitato");
 
-                if(tipo.equals("nutrizionista")) {
+                if(tipo.equalsIgnoreCase("nutrizionista")) {
                     // Crea un nuovo oggetto Professionista e aggiungilo alla lista
                     Professionista professionista = new Professionista(nome, cognome, username, email, passwordDb, dataDiNascita,
                             codice,null, abilitato, tipo);
@@ -387,7 +387,7 @@ public class AutenticazioneDAO {
         String tipoUtente=verificaTipoUtente(email,password);
 
         if(!tipoUtente.equals("")){
-            String query1 ="SELECT * FROM " + tipoUtente + " WHERE E_mail='"+email+"' AND Password='"+password+"' ";
+            String query1 ="SELECT * FROM " + tipoUtente + " WHERE E_Mail='"+email+"' AND Password='"+password+"' ";
             System.out.println(query1);
             try (PreparedStatement ps = database.prepareStatement(query1)) {
 
@@ -453,9 +453,9 @@ public class AutenticazioneDAO {
                             "<button type=\"submit\">Dieta</button>" +
                             "</form></td>";
                     result +="<td><form action=\"ProfessionistaController\" method=\"post\" style=\"display:inline;\">" +
-                            "<input type=\"hidden\" name=\"action\" value=\"pagamenti\">" +
-                            "<input type=\"hidden\" name=\"clienteId\" value=\""+rs.getInt("CODICE")+"\">" +  // Id cliente (esempio)
-                            "<button type=\"submit\">Pagamenti</button>" +
+                            "<input type=\"hidden\" name=\"action\" value=\"progressi\">" +
+                            "<input type=\"hidden\" name=\"clienteId\" id=\"clienteId\"  value=\""+rs.getInt("CODICE")+"\">" +  // Id cliente (esempio)
+                            "<button type=\"submit\">Progressi</button>" +
                             "</form></td>";
                     result += "</tr>";
                 }

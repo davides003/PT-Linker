@@ -34,10 +34,10 @@ public class progressi_cl_Servlet extends HttpServlet {
             Part filePart = request.getPart("foto");
             String foto = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
-            Progressi progressi = new Progressi(idCliente, foto, descrizione, idProgresso, peso, larghezzaGirovita, circonferenzaBracciaDx, circonferenzaBracciaSx, circonferenzaTorace, circonferenzaGambaDx, circonferenzaGambaSx);
+            //Progressi progressi = new Progressi(idCliente, foto, descrizione, idProgresso, peso, larghezzaGirovita, circonferenzaBracciaDx, circonferenzaBracciaSx, circonferenzaTorace, circonferenzaGambaDx, circonferenzaGambaSx);
 
             ProgressiService progressiService = new ProgressiService();
-            progressiService.registraProgressi(progressi);
+            //progressiService.registraProgressi(progressi);
         } catch (Exception e) {
             e.printStackTrace();
         }

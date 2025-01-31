@@ -32,7 +32,7 @@ public class DietaFacade {
 
     // Metodo per scaricare il file da Dropbox nella cartella locale
     public void downloadDietaFile(String dropboxFilePath, String dieteFolderPath) {
-        dropboxService.downloadFile(dropboxFilePath, dieteFolderPath);
+        dropboxService.download(dropboxFilePath, dieteFolderPath);
     }
 
     // Metodo per leggere il file Excel e restituire la struttura della tabella

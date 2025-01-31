@@ -1,6 +1,7 @@
 package data.entity;
 
 import data.DAO.AutenticazioneDAO;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 

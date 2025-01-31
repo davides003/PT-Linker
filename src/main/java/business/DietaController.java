@@ -118,7 +118,7 @@ public class DietaController extends HttpServlet{
                 out.println("<tr>");
                 out.println("<td>" + tipiPasti[rowNum] + "</td>");
                 for (int colNum = 0; colNum < 7; colNum++) {
-                    out.println("<td><input type='text' name='cella_" + rowNum + "_" + colNum + "' id='cella_" + rowNum + "_" + colNum + "' value=''></td>");
+                    out.println("<td><input type='text' name='cella_" + rowNum + "_" + colNum + "' id='cella_" + rowNum + "_" + colNum + "' value='' maxlength='150'></td>");
                 }
                 out.println("<td><button type='button' onclick='svuotaRiga(" + rowNum + ")'>-</button></td>");
                 out.println("</tr>");

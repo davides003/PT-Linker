@@ -209,9 +209,7 @@
         <div class="notification">
             <img src="chat-placeholder.png" alt="Chat">
         </div>
-<a href="progressi_pr_servlet">
         <img src="diet-set-placeholder.png" alt="progress management">
-</a>
     </div>
 
     <div class="table-container">

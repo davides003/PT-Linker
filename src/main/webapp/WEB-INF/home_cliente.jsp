@@ -149,7 +149,7 @@
         <div>400 x 400</div>
         <div>Diet</div>
     </div>
-    <a href="progressi_cl_servlet">
+    <a href="progressiController">
     <div class="card">
         <div>400 x 400</div>
         <div>My Results</div>

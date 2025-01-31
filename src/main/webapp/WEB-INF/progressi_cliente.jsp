@@ -53,6 +53,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
+            align-content: center;
         }
         button:hover {
             background-color: #e65c00;
@@ -67,7 +68,7 @@
 
 <div class="container">
     <h2>Aggiungi i tuoi progressi</h2>
-    <form action="upload_progress.php" method="post" enctype="multipart/form-data">
+    <form action="progressiController" method="post" enctype="multipart/form-data">
         <label for="peso">Peso (kg):</label>
         <input type="number" id="peso" name="peso" min="0" step="0.1" required>
 
@@ -93,10 +94,10 @@
         <textarea id="descrizione" name="descrizione" rows="4" required></textarea>
 
         <label for="foto">Carica una foto (JPG, PNG, max 5MB):</label>
-        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg" required>
+        <input type="file" id="foto" name="foto" accept="image/png, image/jpeg" multiple required>
 
         <button type="submit">Salva Progressi</button>
-        <input type="hidden" id="idCliente" name="idCliente">
+        <input type="hidden" id="idCliente" name="idCliente" value="">
         <script>
             document.getElementById('idCliente').value = getClienteId(); // Funzione per ottenere l'ID
         </script>

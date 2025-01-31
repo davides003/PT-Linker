@@ -59,12 +59,13 @@ public class ProfessionistaController extends HttpServlet {
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/gestione_dieta.jsp");
                 dispatcher.forward(req, resp);
-            } else if (action.equals("pagamenti")) {
+            } else if (action.equals("progressi")) {
+                System.out.println("Progressi home prof");
                 // Memorizzo l'ID nella sessione
                 HttpSession session = req.getSession();
                 session.setAttribute("clienteId", clienteId);
 
-                RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/gestione_pagamenti.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/progressi_professionista.jsp");
                 dispatcher.forward(req, resp);
             }
         }

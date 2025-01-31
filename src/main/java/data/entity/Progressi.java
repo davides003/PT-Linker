@@ -1,10 +1,12 @@
 package data.entity;
 import data.entity.*;
 
+import java.util.ArrayList;
+
 
 public class Progressi {
     private int idCliente,idProgresso;
-    private String foto;
+    private ArrayList<String> percorsiFoto;
     private String descrizione;
     private float peso;
     private float larghezzaGirovita;
@@ -15,10 +17,10 @@ public class Progressi {
     private float circonferenzaGambaSx;
 
     // Costruttore
-    public Progressi(int idCliente, String foto, String descrizione, int idProgresso, float peso, float larghezzaGirovita, float circonferenzaBracciaDx, float circonferenzaBracciaSx, float circonferenzaTorace, float circonferenzaGambaDx, float circonferenzaGambaSx) {
+    public Progressi(int idCliente, ArrayList<String> percorsiFoto, String descrizione, int idProgresso, float peso, float larghezzaGirovita, float circonferenzaBracciaDx, float circonferenzaBracciaSx, float circonferenzaTorace, float circonferenzaGambaDx, float circonferenzaGambaSx) {
         this.idProgresso = idProgresso;
+        this.percorsiFoto = percorsiFoto;
         setIdCliente(idCliente);
-        setFoto(foto);
         setDescrizione(descrizione);
         setPeso(peso);
         setLarghezzaGirovita(larghezzaGirovita);
@@ -39,17 +41,6 @@ public class Progressi {
             throw new IllegalArgumentException("L'ID Cliente non può essere negativo.");
         }
         this.idCliente = idCliente;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        if (foto == null || foto.isEmpty()) {
-            throw new IllegalArgumentException("La foto non può essere vuota.");
-        }
-        this.foto = foto;
     }
 
     public String getDescrizione() {
@@ -146,5 +137,13 @@ public class Progressi {
 
     public void setIdProgresso(int idProgresso) {
         this.idProgresso = idProgresso;
+    }
+
+    public ArrayList<String> getPercorsiFoto() {
+        return percorsiFoto;
+    }
+
+    public void setPercorsiFoto(ArrayList<String> percorsiFoto) {
+        this.percorsiFoto = percorsiFoto;
     }
 }

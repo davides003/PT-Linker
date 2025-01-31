@@ -1,6 +1,5 @@
 package business;
 
-import com.google.gson.Gson;
 import data.entity.Cliente;
 import data.entity.Professionista;
 import data.service.DropboxService;
@@ -14,17 +13,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.servlet.http.Part;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.RequestContext;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 
 
 @WebServlet("/RegistrazioneServlet")
