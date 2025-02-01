@@ -132,10 +132,10 @@ public class RegistrazioneServlet extends HttpServlet {
     }
 
     private void salvaCertificati(HttpServletRequest request, ArrayList<String> certificatiPercors, int id) throws ServletException, IOException {
-        String UPLOAD_DIR = "/documenti/certificati";
+        String UPLOAD_DIR = "documenti/certificati";
 
         // Ottieni il percorso assoluto della directory "certificati"
-        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+        String uploadPath = getServletContext().getRealPath("") +  UPLOAD_DIR;
 
         // Crea la directory se non esiste
         File uploadDir = new File(uploadPath);

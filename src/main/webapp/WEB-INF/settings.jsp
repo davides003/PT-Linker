@@ -219,9 +219,14 @@
         %>
         <div>
             <label><%=percorso%></label>
+            <%
+                percorso = percorso.substring(percorso.indexOf("documenti"));
+            %>
             <!--<a href="window.open('<%=percorso%>')" target="_blank" download>Visualizza PDF</a>-->
-            <a href="#" onclick="window.open('<%=percorso%>', '_blank'); return false;">Visualizza PDF</a>
-
+            <!--<a href="#" onclick="window.open('<%=percorso%>', '_blank'); return false;">Visualizza PDF</a>-->
+            <iframe src="https://docs.google.com/viewer?embedded=true&url=http://localhost:8080/PT_LINKER_war/documenti/certificati/certificato_3_1.pdf" width="600" height="400">
+                Il tuo browser non supporta gli iframe.
+            </iframe>
         </div>
         <%
             }
