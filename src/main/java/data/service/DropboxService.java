@@ -10,7 +10,7 @@ import java.io.*;
 public class DropboxService {
 
     // Attributo per il token di accesso
-    private String accessToken="sl.CFnwhb-8Qe2hONftlrMRKCJ6rWhU8eAiF7MuujmLF7Jj0-fdhIqp0qwtxGnFG_zVQLzWzaJUOyzLI7Qmu-Bdk8_y-aCxPEP5IU8xcjHFMe-mV79j1uE6SpwoHOsuJBh6NruPexCEPKOs";
+    private String accessToken="sl.u.AFinF7f6OJ4w-1kw-5K-Icm64BJ6j1GA9YMPSEBnkf9QoVSZuuSMD6kvToPwCrFd8gY28I41aVD4gSCHBr0ikEQZJKImQFyt0yLN1a9Q9HY-8xU0U9BYbh8hXW0AN-M45PZtCNcvluLUCsSJ1dM5tshVZwJozWxet0XJSr4CtzlN-qP2EybeGB14QnC5xaSDoTV5ioiFl0PNExne_la_hbT71AKPXZatudKQmGwbbYwgTJA0oP59wwYF0poNkNrx0W1tm1zv_4DPwY0kjM8texnsGX_Z17wrG_dcVJfCh0m-OTDBMebIzJWBM6N7LDX43_V3WCKFuBpBRBf9SLMGL8dlXBStDf3-Y55pTNGxxwj7cMR3GEll0IMnYK2A4ZJ901eMfugn0ovtjj_CFss8idL9JGTUOVSMF7AtNSq6D2DwlrW3iYCZY_GrH2z8Szr5BMpIdPZH1ttWyebO7_OOPvraAmcHgyYj2nuFl04XYnBJ3SIc9wH9GJ4cKoI4Ba4Asraff6MDgaHU-oa1fyb7fHyipKIIOxEpvIwMGSlL5Ivu4De9z6KZg6NURZPL_3b9eSbXWbiwmVbm0-uIGUvsqbl8ciBPzNZyCSIN_3frnY-UmUGmRFiy-EEGC23W5MLTs1VeQJW5_izPngCfinFETbI8VZaHwMZBclQ83CmrIDyl1pmXTXLpCTZZLbhHkaV5LyH_X7hX7YkzLttK9OnynkaS3hhXaSf1Aoe71PRWLKgm1xgzFB6Q5wZQYhIYSXm-VdVOY8aawsB66mlTt7midsc9YeAs87KfgHaylL22DZ8nKK4bgJ4CERZoqww4YAyLRO301lPZHzWuW6R2OlYWTmyqj1jocmSBtu2I-VYqfKrwW1b-X7uEe7BPzvyzFVohYDsP7HCIdEOLX0NQwFZWghxzG_kMEbe0Ew-z6DkwnFb3tpf3kPT6Ec3ULXn5rFxayYEuLBuCPVM6BEv02ztnDOru4EBBibf0EAXiK7xje6sPwHrrkSoheFDmUBtXWfhXjE6i_Tr3kZ9F3z0Qi5vsJuLtx1SQ5_2D3OgkY5wj5t0vHTwW2Q7ZDX__4LsUT11p4xyoMBqOfowWzwHNNp-Sbqmh3iftIss_QR3u6XizsS_feGprB0jGvzb4yj5aGfCUYbJho-GFm6mlGSpEF56PSN3vzcBMIH4Na1-4IzHNAilX2sRIOdgShIG8vPXMkVO5437PyrmSqQL611kAb2WMwt7w7IPUcX7GgAzO895oOb1uP7PBCJoaxDqLFB1uDKM-ZtwlJQz_WuozamaZUmpWEE50qr7WTol2I5C7rdc3NnfCVNxOZ4-JEUx-LLquQTWV95SDqC2I3CGYrYIHh2uMscZkydAGEkaT0w4cCsHuuqNcB4JIzkwxn3V6j3QonCJUphec39B-9s8V1AqHr3OekFATUmblMJZhVmVUkPaqDu-tFy_EoDVB2FVPb1eHwROrvdY";
 
     private DbxClientV2 client;
 
@@ -79,6 +79,8 @@ public class DropboxService {
 
     // Metodo per scaricare un file da Dropbox
     public boolean download(String dropboxFilePath, String localFilePath){
+        System.out.println("Downloading file: " + localFilePath);
+        System.out.println("Dropbox file: "+dropboxFilePath);
         boolean result = false;
         try {
             Metadata metadat = client.files().getMetadata(dropboxFilePath);

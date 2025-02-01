@@ -53,7 +53,7 @@ public class RegistrazioneServlet extends HttpServlet {
         String cognome = request.getParameter("surname");
         String dataNascita = request.getParameter("birthdate");
         String ruolo = request.getParameter("role");
-        System.out.println("username"+username+" \nRuolo "+ruolo);
+        System.out.println("username "+username+"\nEmail "+email+" \nRuolo "+ruolo);
 
         String hashPass = null;
         CodificaPass cod = new CodificaPass();

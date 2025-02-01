@@ -116,7 +116,6 @@
 </head>
 <body>
 <div class="header">
-    <img src="logo-placeholder.png" alt="Logo">
     <h1>PT-Linker</h1>
     <div class="logout-container">
         <form action="Logout" method="post">
@@ -145,10 +144,15 @@
         <div>400 x 400</div>
         <div>Workout</div>
     </div>
-    <div class="card">
-        <div>400 x 400</div>
-        <div>Diet</div>
-    </div>
+    <a href="dieta">
+        <%
+            session.setAttribute("pagina","home_cliente");
+        %>
+        <div class="card">
+            <div>400 x 400</div>
+            <div>Diet</div>
+        </div>
+    </a>
     <a href="progressiController">
     <div class="card">
         <div>400 x 400</div>

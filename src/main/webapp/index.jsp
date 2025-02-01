@@ -56,16 +56,15 @@
         }
 
         .header {
-            background-color: orange;
+            background-color: #ff6600;
+            color: white;
             padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
         }
 
         .header h1 {
-            margin: 0;
             font-size: 1.5rem;
         }
 

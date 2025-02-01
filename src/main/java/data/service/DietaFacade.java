@@ -1,6 +1,8 @@
 package data.service;
 
 import com.dropbox.core.v1.DbxEntry;
+import data.entity.Professionista;
+import data.entity.Utente;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -36,7 +38,7 @@ public class DietaFacade {
     }
 
     // Metodo per leggere il file Excel e restituire la struttura della tabella
-    public String generateHtmlTableFromExcel(File file) {
+    public String generateHtmlTableFromExcel(File file, Utente u) {
         StringBuilder htmlTable = new StringBuilder();
         try (FileInputStream fis = new FileInputStream(file);
              XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
@@ -74,9 +76,8 @@ public class DietaFacade {
                     String cellValue = cell != null ? cell.toString() : "";
                     htmlTable.append("<td><input type='text' name='cella_").append(rowNum).append("_").append(colNum).append("' id='cella_").append(rowNum).append("_").append(colNum).append("' value='").append(cellValue).append("'></td>");
                 }
-
-                // Aggiungi il bottone per svuotare la riga
-                htmlTable.append("<td><button type='button' onclick='svuotaRiga(").append(rowNum).append(")'>-</button></td>");
+                if(u instanceof Professionista)// Aggiungi il bottone per svuotare la riga
+                    htmlTable.append("<td><button type='button' onclick='svuotaRiga(").append(rowNum).append(")'>-</button></td>");
 
                 htmlTable.append("</tr>");
             }
@@ -103,5 +104,10 @@ public class DietaFacade {
             case 5: return "Merenda";
             default: return "";
         }
+    }
+
+    public String getFileName(int idCliente){
+        DietaService dietaService = new DietaService();
+        return dietaService.getFileName(idCliente);
     }
 }

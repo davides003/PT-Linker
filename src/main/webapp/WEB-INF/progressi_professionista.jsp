@@ -12,19 +12,38 @@
             background-color: #f9f9f9;
         }
         .header {
+            position: relative;
             background-color: #ff6600;
             color: white;
             padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
         }
-        .header img {
-            width: 50px;
-            height: 50px;
+
+        /* Bottoni generali */
+        .header button {
+            position: absolute;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            top:25%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .header h1 {
-            font-size: 1.5rem;
+
+        .header button:hover {
+            background-color: #e65c00;
+            transform: scale(1.05);
+        }
+
+        /* Bottone a sinistra */
+        .header .left-btn {
+            left: 10px;  /* Posiziona il bottone a sinistra */
+        }
+
+        /* Bottone a destra */
+        .header .right-btn {
+            right: 10px; /* Posiziona il bottone a destra */
         }
         .container {
             max-width: 600px;
@@ -58,8 +77,11 @@
 </head>
 <body>
 <div class="header">
-    <img src="logo-placeholder.png" alt="Logo">
-    <h1>PT-Linker - Visualizza Progressi</h1>
+    <button class="left-btn" onclick="window.history.back();">Indietro</button>
+    <h1>PT_LINKER - Visualizzazione Progressi</h1>
+    <button class="right-btn" onclick="window.location.href='profilo.html';">
+        <i class="fas fa-user"></i> Profilo
+    </button>
 </div>
 
 <div class="container">
@@ -122,26 +144,29 @@
 
                 // Se ci sono immagini, ad esempio
                 if (data.percorsiFoto && data.percorsiFoto.length > 0) {
-                    let percorsoImmagine = '${pageContext.request.contextPath}/' + data.percorsiFoto[0];
+                    for(var i=0;i<data.percorsiFoto.length;i++){
+                        let percorsoImmagine = '${pageContext.request.contextPath}/' + data.percorsiFoto[i];
 
-                    // Rimuove eventuali doppie barre (//) nel percorso generato
-                    percorsoImmagine = percorsoImmagine.replace(/\/+/g, '/');
+                        // Rimuove eventuali doppie barre (//) nel percorso generato
+                        percorsoImmagine = percorsoImmagine.replace(/\/+/g, '/');
 
-                    console.log("Percorso immagine:", percorsoImmagine); // Debug
+                        console.log("Percorso immagine:", percorsoImmagine); // Debug
 
-                    // Creazione dell'elemento <img>
-                    let img = document.createElement("img");
-                    img.src = percorsoImmagine;
-                    img.alt = "Foto progresso";
-                    img.style.width = "700px"; // Opzionale: imposta dimensioni
+                        // Creazione dell'elemento <img>
+                        let img = document.createElement("img");
+                        img.id="foto"+i;
+                        img.src = percorsoImmagine;
+                        img.alt = "Foto progresso";
+                        img.style.width = "700px"; // Opzionale: imposta dimensioni
 
 
-                    // Trova il div con id="fotoContainer" e aggiunge l'immagine
-                    let divFoto = document.getElementById("foto");
-                    if (divFoto) {
-                        divFoto.appendChild(img);
-                    } else {
-                        console.error("Div con id='foto' non trovato");
+                        // Trova il div con id="fotoContainer" e aggiunge l'immagine
+                        let divFoto = document.getElementById("foto");
+                        if (divFoto) {
+                            divFoto.appendChild(img);
+                        } else {
+                            console.error("Div con id='foto' non trovato");
+                        }
                     }
                 }
             })

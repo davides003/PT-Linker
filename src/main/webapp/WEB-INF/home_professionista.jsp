@@ -21,9 +21,8 @@
             align-items: center;
         }
 
-        .header img {
-            width: 50px;
-            height: 50px;
+        .header h1 {
+            font-size: 1.5rem;
         }
 
         .logout-container form {
@@ -190,7 +189,6 @@
 </head>
 <body>
 <div class="header">
-    <img src="logo-placeholder.png" alt="Logo">
     <h1>PT-Linker</h1>
     <div class="logout-container">
         <form action="Logout" method="post">

@@ -8,4 +8,9 @@ public class DietaService {
         DietaDAO dao = new DietaDAO();
         return dao.salvaDietaInDatabase(percorsoFile, professionistaCodice, clienteCodice);
     }
+
+    public String getFileName(int idCliente){
+        DietaDAO dao = new DietaDAO();
+        return dao.getFileName(idCliente);
+    }
 }

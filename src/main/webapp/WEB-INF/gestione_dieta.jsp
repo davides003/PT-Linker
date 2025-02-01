@@ -1,3 +1,4 @@
+<%@ page import="data.entity.Professionista" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,7 +164,7 @@
 <body>
 <div class="header">
     <button class="left-btn" onclick="window.history.back();">Indietro</button>
-    <h1>Gestione Dieta</h1>
+    <h1>PT_LINKER - Gestione Dieta</h1>
     <button class="right-btn" onclick="window.location.href='profilo.html';">
         <i class="fas fa-user"></i> Profilo
     </button>
@@ -174,10 +175,15 @@
     <div class="table-container" id="table-container">
         <!-- La tabella verrà caricata dinamicamente dalla servlet o creata inizialmente -->
     </div>
-
+    <%
+        if(session.getAttribute("utente") instanceof Professionista){
+    %>
     <div class="buttons-container">
         <button type="submit">Salva Modifiche</button>
     </div>
+    <%
+        }
+    %>
 </form>
 
 <script>
