@@ -132,7 +132,7 @@ public class ProgressiDAO {
                 System.out.println("Ultimo progresso - ID: " + codice + ", Commento: " + commento);
             }
             System.out.println("separatore"+File.separator);
-            String[] campi = commento.split("\\\\"); // Suddivide il commento usando "/" come separatore
+            String[] campi = commento.split(File.separator); // Suddivide il commento usando "/" come separatore
 
 
             ArrayList<String> percorsiFoto = getPercorsiFoto(codice);

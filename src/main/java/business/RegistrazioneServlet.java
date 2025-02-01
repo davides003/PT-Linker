@@ -28,9 +28,10 @@ import java.util.ArrayList;
         maxRequestSize = 1024 * 1024 * 50    // 50 MB per richiesta
 )
 public class RegistrazioneServlet extends HttpServlet {
+    private RegistrazioneService rs=new RegistrazioneService();
     // Gestisce la navigazione e l'invio del form
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RegistrazioneService rs = new RegistrazioneService();
+        //rs = new RegistrazioneService();
         // Ottieni l'elenco dei nutrizionisti
         ArrayList<Professionista> nutrizionisti = rs.getProfessionista();
 
@@ -75,16 +76,16 @@ public class RegistrazioneServlet extends HttpServlet {
         ArrayList<String> certificatiPercorsi = new ArrayList<>(); // Lista per memorizzare i percorsi dei certificati
 
         // Servizio di registrazione
-        RegistrazioneService regService = new RegistrazioneService();
+        //rs = new RegistrazioneService();
 
         // Verifica se i dati sono già presenti
-        boolean presente = regService.verificaDati(username, email);
+        boolean presente = rs.verificaDati(username, email);
         if (!presente) {
             // Salvataggio dei dati del professionista o cliente
             if ("cliente".equals(ruolo)) {
                 salvaCliente(request, 0, nome, cognome, username, email, hashPass, dataNascita, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
             } else if ("personal_trainer".equals(ruolo) || "nutrizionista".equals(ruolo)) {
-                int idUltimoProfessionista= regService.getIdProfessionista();
+                int idUltimoProfessionista= rs.getIdProfessionista();
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
                 salvaCertificati(request, certificatiPercorsi,idUltimoProfessionista+1);
@@ -92,8 +93,8 @@ public class RegistrazioneServlet extends HttpServlet {
                 if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
                     Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, idUltimoProfessionista+1,certificatiPercorsi,false, ruolo);
-                    regService.registraProfessionista(pr);
-                    regService.registraCertificati(certificatiPercorsi);
+                    rs.registraProfessionista(pr);
+                    rs.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");
                 } else {
                     System.out.println("Nessun file PDF caricato.");
@@ -108,7 +109,7 @@ public class RegistrazioneServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
+    public void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
         altezza = Float.parseFloat(request.getParameter("altezza"));
         peso = Float.parseFloat(request.getParameter("peso"));
         girovita = Float.parseFloat(request.getParameter("girovita"));
@@ -121,12 +122,12 @@ public class RegistrazioneServlet extends HttpServlet {
 
 
         Cliente cliente = new Cliente(nome, cognome, username, email, hashPass, dataNascita, id, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
-        RegistrazioneService regService = new RegistrazioneService();
-        boolean esitoReg = regService.registraCliente(cliente);
+        //rs = new RegistrazioneService();
+        boolean esitoReg = rs.registraCliente(cliente);
         if (!esitoReg) {
             System.out.println("FAIL registrazione cliente");
         }else{
-            regService.abbinaCliente(codicePr);
+            rs.abbinaCliente(codicePr);
         }
     }
 

@@ -93,7 +93,7 @@ public class DropboxService {
                     if (parentDir != null && !parentDir.exists()) {
                         parentDir.mkdirs();  // Crea la cartella se non esiste
                     }
-                    dropboxFilePath+=("/")+localFile.getName();
+                    dropboxFilePath+=File.separator+localFile.getName();
                     System.out.println("DROPBOX "+dropboxFilePath);
                     System.out.println("LOCAL "+localFilePath);
                     // Crea un OutputStream per scrivere il file localmente
