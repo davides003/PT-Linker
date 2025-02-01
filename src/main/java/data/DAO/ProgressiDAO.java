@@ -131,7 +131,9 @@ public class ProgressiDAO {
 
                 System.out.println("Ultimo progresso - ID: " + codice + ", Commento: " + commento);
             }
-            String[] campi = commento.split(File.separator); // Suddivide il commento usando "/" come separatore
+            System.out.println("separatore"+File.separator);
+            String[] campi = commento.split("\\\\"); // Suddivide il commento usando "/" come separatore
+
 
             ArrayList<String> percorsiFoto = getPercorsiFoto(codice);
             DropboxService dbs= new DropboxService();
@@ -151,7 +153,7 @@ public class ProgressiDAO {
 
             for(int i=0;i<percorsiFoto.size();i++){
                 String percorso = percorsiFoto.get(i);
-                percorso = percorso.substring(percorso.indexOf("image/"));
+                percorso = percorso.substring(percorso.indexOf("image"));
                 System.out.println(percorso);
                 percorsiFoto.set(i,percorso);
             }

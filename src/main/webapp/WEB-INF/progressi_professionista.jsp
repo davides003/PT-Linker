@@ -127,6 +127,56 @@
 <script>
     window.onload = function() {
         fetch('progressiController')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nella risposta del server: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Esempio di come visualizzare alcuni campi nell'interfaccia
+                document.getElementById("peso").innerText = data.peso + " kg";
+                document.getElementById("girovita").innerText = data.larghezzaGirovita + " cm";
+                document.getElementById("braccioDx").innerText = data.circonferenzaBracciaDx + " cm";
+                document.getElementById("braccioSx").innerText = data.circonferenzaBracciaSx + " cm";
+                document.getElementById("torace").innerText = data.circonferenzaTorace + " cm";
+                document.getElementById("gambaDx").innerText = data.circonferenzaGambaDx + " cm";
+                document.getElementById("gambaSx").innerText = data.circonferenzaGambaSx + " cm";
+                document.getElementById("descrizione").innerText = data.descrizione;
+
+                // Se ci sono immagini, ad esempio
+                if (data.percorsiFoto && data.percorsiFoto.length > 0) {
+                    for(var i=0;i<data.percorsiFoto.length;i++){
+                        let percorsoImmagine = '${pageContext.request.contextPath}/' + data.percorsiFoto[i];
+
+                        // Rimuove eventuali doppie barre (//) nel percorso generato
+                        percorsoImmagine = percorsoImmagine.replace(/\/+/g, '/');
+
+                        console.log("Percorso immagine:", percorsoImmagine); // Debug
+
+                        // Creazione dell'elemento <img>
+                        let img = document.createElement("img");
+                        img.id="foto"+i;
+                        img.src = percorsoImmagine;
+                        img.alt = "Foto progresso";
+                        img.style.width = "700px"; // Opzionale: imposta dimensioni
+
+
+                        // Trova il div con id="fotoContainer" e aggiunge l'immagine
+                        let divFoto = document.getElementById("foto");
+                        if (divFoto) {
+                            divFoto.appendChild(img);
+                        } else {
+                            console.error("Div con id='foto' non trovato");
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Errore nella richiesta:', error); // 🔴 Mostra eventuali errori
+            });
+
+        /*fetch('progressiController')
             .then(response => response.json()) // Parsea la risposta JSON
             .then(data => {
                 // Ora "data" è l'oggetto Progresso deserializzato
@@ -172,7 +222,8 @@
             })
             .catch(error => {
                 console.error("Errore durante la chiamata alla servlet:", error);
-            });
+            });*/
+
     };
 </script>
 </body>
