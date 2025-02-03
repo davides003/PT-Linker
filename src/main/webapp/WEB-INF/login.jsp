@@ -158,5 +158,16 @@
     </form>
     <a href="RegistrazioneServlet" class="btn btn-secondary">Registrazione</a>
 </div>
+<script>
+    window.onload = function() {
+        // Ottieni il nome utente dalla variabile JSP
+        var messaggio = "<%= request.getAttribute("errorMessage") %>";
+
+        // Mostra un alert se il nome utente esiste
+        if (messaggio) {
+            alert(messaggio + "!");
+        }
+    };
+</script>
 </body>
 </html>

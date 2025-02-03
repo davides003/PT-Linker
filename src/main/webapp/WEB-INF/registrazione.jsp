@@ -244,19 +244,6 @@
                 </select>
             </div>
         `;
-            // Ricevi il JSON dei nutrizionisti dalla servlet
-            //var nutrizionisti = JSON.parse('${nutrizionisti}');
-
-            // Recupera il select per nutrizionisti
-            //var nutrizionistiSelect = document.getElementById('nutrizionista');
-
-            // Aggiungi dinamicamente le opzioni al select
-            /*nutrizionisti.forEach(function(nutrizionista) {
-                var option = document.createElement('option');
-                option.value = nutrizionista.;  // Utilizza il codice del nutrizionista
-                option.textContent = nutrizionista.nome + ' ' + nutrizionista.cognome;  // Nome completo
-                nutrizionistiSelect.appendChild(option);
-            });*/
         } else if (this.value === "personal_trainer" || this.value === "nutrizionista") {
             additionalFieldsContainer.innerHTML = `
                 <div class="form-group">

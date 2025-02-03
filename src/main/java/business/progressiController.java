@@ -39,18 +39,22 @@ public class progressiController extends HttpServlet {
             ProgressiService ps = new ProgressiService();
             HttpSession session = request.getSession();
             System.out.println(session.getAttribute("clienteId"));
-            int idcliente= Integer.parseInt((String) session.getAttribute("clienteId"));
-            Progressi progressi=ps.getProgressi(idcliente);
+            try {
+                int idcliente = Integer.parseInt((String) session.getAttribute("clienteId"));
+                Progressi progressi = ps.getProgressi(idcliente);
 
-            System.out.println("SESSIONE APERTA");
+                System.out.println("SESSIONE APERTA");
 
-            // Usa Gson per serializzare l'oggetto "progressi" in JSON
-            Gson gson = new Gson();
-            String jsonProgressi = gson.toJson(progressi);
+                // Usa Gson per serializzare l'oggetto "progressi" in JSON
+                Gson gson = new Gson();
+                String jsonProgressi = gson.toJson(progressi);
 
-            // Imposta il tipo di contenuto della risposta come JSON
-            response.setContentType("application/json");
-            response.getWriter().write(jsonProgressi);
+                // Imposta il tipo di contenuto della risposta come JSON
+                response.setContentType("application/json");
+                response.getWriter().write(jsonProgressi);
+            }catch(Exception e) {
+                throw new ServletException(e);
+            }
         }else{
             request.getRequestDispatcher("WEB-INF/progressi_cliente.jsp").forward(request, response);
         }
@@ -61,23 +65,93 @@ public class progressiController extends HttpServlet {
 
         Utente utente = (Utente) request.getSession().getAttribute("utente");
         if(utente instanceof Cliente) {
+            Float altezza = null;
+            Float peso = null;
+            Float girovita = null;
+            Float circonferenzaBraccioDestro = null;
+            Float circonferenzaBraccioSinistro = null;
+            Float circonferenzaGambaDestra = null;
+            Float circonferenzaGambaSinistra = null;
+            Float circonferenzaTorace = null;
+            boolean valid=true;
             try {
                 Cliente cliente = (Cliente) utente;
                 //Legge i dati numerici e la descrizione
-                float peso = Float.parseFloat(request.getParameter("peso"));
-                float girovita = Float.parseFloat(request.getParameter("girovita"));
-                float braccioDx = Float.parseFloat(request.getParameter("braccioDx"));
-                float braccioSx = Float.parseFloat(request.getParameter("braccioSx"));
-                float torace = Float.parseFloat(request.getParameter("torace"));
-                float gambaDx = Float.parseFloat(request.getParameter("gambaDx"));
-                float gambaSx = Float.parseFloat(request.getParameter("gambaSx"));
+                try {
+                    altezza = Float.parseFloat(request.getParameter("altezza"));
+                    if (altezza <= 0 || altezza > 3) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    peso = Float.parseFloat(request.getParameter("peso"));
+                    if (peso <= 0 || peso > 200) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    girovita = Float.parseFloat(request.getParameter("girovita"));
+                    if (girovita <= 0 || girovita > 200) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    circonferenzaBraccioDestro = Float.parseFloat(request.getParameter("circonferenza-braccio-destro"));
+                    if (circonferenzaBraccioDestro <= 0 || circonferenzaBraccioDestro > 100) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    circonferenzaBraccioSinistro = Float.parseFloat(request.getParameter("circonferenza-braccio-sinistro"));
+                    if (circonferenzaBraccioSinistro <= 0 || circonferenzaBraccioSinistro > 100) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    circonferenzaGambaDestra = Float.parseFloat(request.getParameter("circonferenza-gamba-destra"));
+                    if (circonferenzaGambaDestra <= 0 || circonferenzaGambaDestra > 100) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
+                    if (circonferenzaGambaSinistra <= 0 || circonferenzaGambaSinistra > 100) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                try {
+                    circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
+                    if (circonferenzaTorace <= 0 || circonferenzaTorace > 200) {
+                        valid = false;
+                    }
+                }catch(NumberFormatException e){
+                    throw new RuntimeException(e);
+                }
+                String codicePr = request.getParameter("nutrizionista");
+                if (!valid) {
+                    throw new IllegalArgumentException("Data nutrizionista non rispetta i criteri");
+                }
                 String descrizione = request.getParameter("descrizione");
                 String idCliente = String.valueOf(cliente.getId()); // Potrebbe essere null
 
                 ArrayList<String> fotoPath = new ArrayList<>();
                 salvaFotoProgressi(request, fotoPath, idCliente);
 
-                Progressi pr = new Progressi(Integer.parseInt(idCliente), fotoPath, descrizione, 0, peso, girovita, braccioDx, braccioSx, torace, gambaDx, gambaSx);
+                Progressi pr = new Progressi(Integer.parseInt(idCliente), fotoPath, descrizione, 0, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
                 ProgressiService ps = new ProgressiService();
                 ps.registraProgressi(pr);
                 ps.registraFotoProgressi(fotoPath);
@@ -86,22 +160,21 @@ public class progressiController extends HttpServlet {
                 System.out.println("ID Cliente: " + idCliente);
                 System.out.println("Peso: " + peso);
                 System.out.println("Girovita: " + girovita);
-                System.out.println("Braccio DX: " + braccioDx);
-                System.out.println("Braccio SX: " + braccioSx);
-                System.out.println("Torace: " + torace);
-                System.out.println("Gamba DX: " + gambaDx);
-                System.out.println("Gamba SX: " + gambaSx);
+                System.out.println("Braccio DX: " + circonferenzaBraccioDestro);
+                System.out.println("Braccio SX: " + circonferenzaBraccioSinistro);
+                System.out.println("Torace: " + circonferenzaTorace);
+                System.out.println("Gamba DX: " + circonferenzaGambaDestra);
+                System.out.println("Gamba SX: " + circonferenzaGambaSinistra);
                 System.out.println("Descrizione: " + descrizione);
                 //System.out.println("Foto salvata in: " + file.getAbsolutePath());
                 request.getRequestDispatcher("/WEB-INF/home_cliente.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
-                request.setAttribute("error", "Errore durante il salvataggio dei progressi: " + e.getMessage());
-                request.getRequestDispatcher("errore.jsp").forward(request, response);
+                throw new ServletException(e);
             }
         }else{
             //PROFESSIONISTA FEEDBACK
-
+            throw new IllegalArgumentException("Data nutrizionista non rispetta i criteri");
         }
     }
 

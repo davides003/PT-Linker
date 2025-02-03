@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -46,15 +47,41 @@ public class RegistrazioneServlet extends HttpServlet {
     // Gestisce la raccolta dei dati dal form e la logica di login
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Leggi i campi principali del form
-        int id = 11; // Integer.parseInt(request.getParameter("CODICE"));
+        String regexMail = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String usernameRegex = "^[a-zA-Z0-9_]+$";
+        String nameRegex = "^[a-zA-Z]+$"; // Solo lettere
+        String dataNascitaRegex = "^\\d{4}-\\d{2}-\\d{2}$"; // Verifica formato yyyy-MM-dd
+
+
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confPaassword = request.getParameter("confirm-password");
         String nome = request.getParameter("name");
         String cognome = request.getParameter("surname");
         String dataNascita = request.getParameter("birthdate");
         String ruolo = request.getParameter("role");
         System.out.println("username "+username+"\nEmail "+email+" \nRuolo "+ruolo);
+
+        //Controlli
+        if(!username.matches(usernameRegex) || username.length() < 3 || username.length() > 15) {
+            throw new ServletException("Invalid username");
+        }
+        if(email==null || !email.matches(regexMail) || email.isEmpty()){
+            throw new IllegalArgumentException("L'e-mail non rispetta i criteri.");
+        }
+        if(password==null || password.length()<8 || password.length()>24 || !password.equals(confPaassword)){
+            throw new IllegalArgumentException("La password non rispetta i criteri di sicurezza.");
+        }
+        if(nome==null || nome.isEmpty() || cognome==null || cognome.isEmpty() || nome.matches(nameRegex) || cognome.matches(nameRegex)){
+            throw new IllegalArgumentException("Nome/Cognome non rispetta i criteri.");
+        }
+        if(dataNascita==null || dataNascita.isEmpty() || dataNascita.matches(dataNascitaRegex)){
+            throw new IllegalArgumentException("Data nascita non rispetta i criteri.");
+        }
+        if(ruolo==null || ruolo.isEmpty() || ruolo.isBlank()){
+            throw new IllegalArgumentException("Ruolo non rispetta i criteri.");
+        }
 
         String hashPass = null;
         CodificaPass cod = new CodificaPass();
@@ -101,7 +128,7 @@ public class RegistrazioneServlet extends HttpServlet {
                 }
             }
         } else {
-            System.out.println("GIà REGISTRATO!!");
+           throw new RuntimeException("Utente già registrato");
         }
 
         // Forward alla pagina di login
@@ -110,19 +137,79 @@ public class RegistrazioneServlet extends HttpServlet {
     }
 
     public void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
-        altezza = Float.parseFloat(request.getParameter("altezza"));
-        peso = Float.parseFloat(request.getParameter("peso"));
-        girovita = Float.parseFloat(request.getParameter("girovita"));
-        circonferenzaBraccioDestro = Float.parseFloat(request.getParameter("circonferenza-braccio-destro"));
-        circonferenzaBraccioSinistro = Float.parseFloat(request.getParameter("circonferenza-braccio-sinistro"));
-        circonferenzaGambaDestra = Float.parseFloat(request.getParameter("circonferenza-gamba-destra"));
-        circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
-        circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
-        String codicePr=request.getParameter("nutrizionista");
+        boolean valid=true;
 
+        try {
+            altezza = Float.parseFloat(request.getParameter("altezza"));
+            if (altezza <= 0 || altezza > 3) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            peso = Float.parseFloat(request.getParameter("peso"));
+            if (peso <= 0 || peso > 200) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            girovita = Float.parseFloat(request.getParameter("girovita"));
+            if (girovita <= 0 || girovita > 200) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            circonferenzaBraccioDestro = Float.parseFloat(request.getParameter("circonferenza-braccio-destro"));
+            if (circonferenzaBraccioDestro <= 0 || circonferenzaBraccioDestro > 100) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            circonferenzaBraccioSinistro = Float.parseFloat(request.getParameter("circonferenza-braccio-sinistro"));
+            if (circonferenzaBraccioSinistro <= 0 || circonferenzaBraccioSinistro > 100) {
+                valid = false;
+            }
+            }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            circonferenzaGambaDestra = Float.parseFloat(request.getParameter("circonferenza-gamba-destra"));
+            if (circonferenzaGambaDestra <= 0 || circonferenzaGambaDestra > 100) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
+            if (circonferenzaGambaSinistra <= 0 || circonferenzaGambaSinistra > 100) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        try {
+            circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
+            if (circonferenzaTorace <= 0 || circonferenzaTorace > 200) {
+                valid = false;
+            }
+        }catch(NumberFormatException e){
+            throw new RuntimeException(e);
+        }
+        String codicePr = request.getParameter("nutrizionista");
+        if (!valid) {
+            throw new IllegalArgumentException("Data nutrizionista non rispetta i criteri");
+        }
 
         Cliente cliente = new Cliente(nome, cognome, username, email, hashPass, dataNascita, id, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
-        //rs = new RegistrazioneService();
+
         boolean esitoReg = rs.registraCliente(cliente);
         if (!esitoReg) {
             System.out.println("FAIL registrazione cliente");
@@ -180,6 +267,7 @@ public class RegistrazioneServlet extends HttpServlet {
             // Gestione degli errori
             e.printStackTrace();
             System.out.println("Errore durante il caricamento dei file: " + e.getMessage());
+            throw new ServletException(e);
         }
     }
 

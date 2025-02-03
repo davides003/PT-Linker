@@ -31,7 +31,14 @@ public class DietaController extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Professionista professionista = (Professionista) request.getSession().getAttribute("utente");
+        Utente u= (Utente) request.getSession().getAttribute("utente");
+        if(u == null) {
+            throw new ServletException("NON LOGGATO");
+        }else if(!(u instanceof Professionista)){
+            throw new ServletException("NON AUTORIZZATO");
+        }
+
+        Professionista professionista = (Professionista) u;
 
         // Codice per salvare il file Excel
         System.out.println("Salva Excel");
@@ -44,6 +51,9 @@ public class DietaController extends HttpServlet{
             String value = request.getParameter(paramName);
 
             if (paramName.startsWith("cella_")) {
+                if (value == null || value.trim().isEmpty()) {
+                    throw new ServletException("Dati non validi");
+                }
                 String[] indices = paramName.substring(6).split("_");
                 int row = Integer.parseInt(indices[0]);
                 int col = Integer.parseInt(indices[1]);
@@ -73,7 +83,11 @@ public class DietaController extends HttpServlet{
         }
 
         DietaService dietaService = new DietaService();
-        dietaService.salvaDieta(dropboxFilePath+ "/dieta_"+professionista.getId()+"_"+idcliente+".xlsx",professionista.getId(), Integer.parseInt(idcliente));
+        try {
+            dietaService.salvaDieta(dropboxFilePath + "/dieta_" + professionista.getId() + "_" + idcliente + ".xlsx", professionista.getId(), Integer.parseInt(idcliente));
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         professionista.notificaCliente(idcliente,"aggiunta/modificata dieta");
 

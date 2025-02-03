@@ -386,7 +386,7 @@ public class AutenticazioneDAO {
     public Utente verify(String email, String password){
         String tipoUtente=verificaTipoUtente(email,password);
 
-        if(!tipoUtente.equals("")){
+        if(!tipoUtente.equals("") && !tipoUtente.equals("Non registrato")){
             String query1 ="SELECT * FROM " + tipoUtente + " WHERE E_Mail='"+email+"' AND Password='"+password+"' ";
             System.out.println(query1);
             try (PreparedStatement ps = database.prepareStatement(query1)) {
@@ -427,7 +427,7 @@ public class AutenticazioneDAO {
             }
 
         }else{
-            System.out.println("vuoto");
+            throw new RuntimeException("Utente Non Registrato");
         }
 
         return null;

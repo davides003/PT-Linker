@@ -67,7 +67,11 @@ public class ProfessionistaController extends HttpServlet {
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/progressi_professionista.jsp");
                 dispatcher.forward(req, resp);
+            }else{
+                throw new ServletException("Invalid action");
             }
+        }else{
+            throw new ServletException("Action non valido");
         }
     }
 }
