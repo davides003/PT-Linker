@@ -73,10 +73,10 @@ public class RegistrazioneServlet extends HttpServlet {
         if(password==null || password.length()<8 || password.length()>24 || !password.equals(confPaassword)){
             throw new IllegalArgumentException("La password non rispetta i criteri di sicurezza.");
         }
-        if(nome==null || nome.isEmpty() || cognome==null || cognome.isEmpty() || nome.matches(nameRegex) || cognome.matches(nameRegex)){
+        if(nome==null || nome.isEmpty() || cognome==null || cognome.isEmpty() || !nome.matches(nameRegex) || !cognome.matches(nameRegex)){
             throw new IllegalArgumentException("Nome/Cognome non rispetta i criteri.");
         }
-        if(dataNascita==null || dataNascita.isEmpty() || dataNascita.matches(dataNascitaRegex)){
+        if(dataNascita==null || dataNascita.isEmpty() || !dataNascita.matches(dataNascitaRegex)){
             throw new IllegalArgumentException("Data nascita non rispetta i criteri.");
         }
         if(ruolo==null || ruolo.isEmpty() || ruolo.isBlank()){
@@ -141,7 +141,7 @@ public class RegistrazioneServlet extends HttpServlet {
 
         try {
             altezza = Float.parseFloat(request.getParameter("altezza"));
-            if (altezza <= 0 || altezza > 3) {
+            if (altezza <= 0 || altezza > 200) {
                 valid = false;
             }
         }catch(NumberFormatException e){

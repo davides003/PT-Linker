@@ -164,7 +164,7 @@
         var messaggio = "<%= request.getAttribute("errorMessage") %>";
 
         // Mostra un alert se il nome utente esiste
-        if (messaggio) {
+        if (messaggio!="null") {
             alert(messaggio + "!");
         }
     };

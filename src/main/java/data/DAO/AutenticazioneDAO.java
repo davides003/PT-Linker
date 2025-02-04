@@ -425,9 +425,7 @@ public class AutenticazioneDAO {
             } catch (SQLException e) {
                 e.printStackTrace();  // Log dell'errore
             }
-
         }else{
-            throw new RuntimeException("Utente Non Registrato");
         }
 
         return null;

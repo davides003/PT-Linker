@@ -78,14 +78,6 @@ public class progressiController extends HttpServlet {
                 Cliente cliente = (Cliente) utente;
                 //Legge i dati numerici e la descrizione
                 try {
-                    altezza = Float.parseFloat(request.getParameter("altezza"));
-                    if (altezza <= 0 || altezza > 3) {
-                        valid = false;
-                    }
-                }catch(NumberFormatException e){
-                    throw new RuntimeException(e);
-                }
-                try {
                     peso = Float.parseFloat(request.getParameter("peso"));
                     if (peso <= 0 || peso > 200) {
                         valid = false;
@@ -102,7 +94,7 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 try {
-                    circonferenzaBraccioDestro = Float.parseFloat(request.getParameter("circonferenza-braccio-destro"));
+                    circonferenzaBraccioDestro = Float.parseFloat(request.getParameter("braccioDx"));
                     if (circonferenzaBraccioDestro <= 0 || circonferenzaBraccioDestro > 100) {
                         valid = false;
                     }
@@ -110,7 +102,7 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 try {
-                    circonferenzaBraccioSinistro = Float.parseFloat(request.getParameter("circonferenza-braccio-sinistro"));
+                    circonferenzaBraccioSinistro = Float.parseFloat(request.getParameter("braccioSx"));
                     if (circonferenzaBraccioSinistro <= 0 || circonferenzaBraccioSinistro > 100) {
                         valid = false;
                     }
@@ -118,7 +110,7 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 try {
-                    circonferenzaGambaDestra = Float.parseFloat(request.getParameter("circonferenza-gamba-destra"));
+                    circonferenzaGambaDestra = Float.parseFloat(request.getParameter("gambaDx"));
                     if (circonferenzaGambaDestra <= 0 || circonferenzaGambaDestra > 100) {
                         valid = false;
                     }
@@ -126,7 +118,7 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 try {
-                    circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
+                    circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("gambaSx"));
                     if (circonferenzaGambaSinistra <= 0 || circonferenzaGambaSinistra > 100) {
                         valid = false;
                     }
@@ -134,7 +126,7 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 try {
-                    circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
+                    circonferenzaTorace = Float.parseFloat(request.getParameter("torace"));
                     if (circonferenzaTorace <= 0 || circonferenzaTorace > 200) {
                         valid = false;
                     }
@@ -142,11 +134,20 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 String codicePr = request.getParameter("nutrizionista");
+
                 if (!valid) {
-                    throw new IllegalArgumentException("Data nutrizionista non rispetta i criteri");
+                    throw new IllegalArgumentException("Dati nutrizionista non rispettano i criteri");
                 }
+
                 String descrizione = request.getParameter("descrizione");
+                if(descrizione.length()<0 || descrizione.length() > 550){
+                    throw new IllegalArgumentException("Descrizione non rispetta i criteri");
+                }
+
                 String idCliente = String.valueOf(cliente.getId()); // Potrebbe essere null
+                if(idCliente == null || idCliente.isEmpty()) {
+                    throw new IllegalArgumentException("idCliente null");
+                }
 
                 ArrayList<String> fotoPath = new ArrayList<>();
                 salvaFotoProgressi(request, fotoPath, idCliente);
