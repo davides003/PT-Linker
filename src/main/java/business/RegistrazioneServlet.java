@@ -45,7 +45,7 @@ public class RegistrazioneServlet extends HttpServlet {
     }
 
     // Gestisce la raccolta dei dati dal form e la logica di login
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Leggi i campi principali del form
         String regexMail = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         String usernameRegex = "^[a-zA-Z0-9_]+$";
@@ -64,8 +64,8 @@ public class RegistrazioneServlet extends HttpServlet {
         System.out.println("username "+username+"\nEmail "+email+" \nRuolo "+ruolo);
 
         //Controlli
-        if(!username.matches(usernameRegex) || username.length() < 3 || username.length() > 15) {
-            throw new ServletException("Invalid username");
+        if(!username.matches(usernameRegex) || username.length() < 3 || username.length() > 30) {
+            throw new IllegalArgumentException("Invalid username");
         }
         if(email==null || !email.matches(regexMail) || email.isEmpty()){
             throw new IllegalArgumentException("L'e-mail non rispetta i criteri.");
@@ -115,25 +115,27 @@ public class RegistrazioneServlet extends HttpServlet {
                 int idUltimoProfessionista= rs.getIdProfessionista();
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
-                salvaCertificati(request, certificatiPercorsi,idUltimoProfessionista+1);
+                //salvaCertificati(request, certificatiPercorsi,idUltimoProfessionista+1);
                 DropboxService dbS= new DropboxService();
-                if (!certificatiPercorsi.isEmpty()) {
+                //if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
                     Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, idUltimoProfessionista+1,certificatiPercorsi,false, ruolo);
-                    rs.registraProfessionista(pr);
+                    if(!rs.registraProfessionista(pr)){
+                        throw new RuntimeException("Registrazione Professionista Fallita");
+                    }
                     rs.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");
-                } else {
+                /*} else {
                     System.out.println("Nessun file PDF caricato.");
-                }
+                }*/
             }
         } else {
            throw new RuntimeException("Utente già registrato");
         }
 
         // Forward alla pagina di login
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login.jsp");
-        dispatcher.forward(request, response);
+        //RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login.jsp");
+        //dispatcher.forward(request, response);
     }
 
     public void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
@@ -213,6 +215,7 @@ public class RegistrazioneServlet extends HttpServlet {
         boolean esitoReg = rs.registraCliente(cliente);
         if (!esitoReg) {
             System.out.println("FAIL registrazione cliente");
+            throw new RuntimeException("Registrazione Cliente fallita");
         }else{
             rs.abbinaCliente(codicePr);
         }

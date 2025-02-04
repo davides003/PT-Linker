@@ -30,7 +30,7 @@ public class DietaController extends HttpServlet{
     private String idcliente;
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Utente u= (Utente) request.getSession().getAttribute("utente");
         if(u == null) {
             throw new ServletException("NON LOGGATO");
@@ -46,12 +46,19 @@ public class DietaController extends HttpServlet{
         Sheet sheet = workbook.createSheet("Dati Tabella");
 
         Enumeration<String> parameterNames = request.getParameterNames();
+        if(!parameterNames.hasMoreElements()){
+            throw new ServletException("NON PARAMETRO");
+        }
         while (parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();
             String value = request.getParameter(paramName);
 
+            System.out.println("Value: " + value);
+            System.out.println("Length: " + value.length());
             if (paramName.startsWith("cella_")) {
-                if (value == null || value.trim().isEmpty()) {
+                System.out.println("Value: " + value);
+                System.out.println("Length: " + value.length());
+                if (value == null || value.trim().isEmpty() || value.length()>150) {
                     throw new ServletException("Dati non validi");
                 }
                 String[] indices = paramName.substring(6).split("_");

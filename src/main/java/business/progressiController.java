@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class progressiController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private ProgressiService ps = new ProgressiService();;
     // Percorso dove salvare le immagini
     private static final String UPLOAD_DIRECTORY = "foto_clienti";
 
@@ -61,8 +62,8 @@ public class progressiController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("CIAO1");
         Utente utente = (Utente) request.getSession().getAttribute("utente");
         if(utente instanceof Cliente) {
             Float altezza = null;
@@ -134,9 +135,14 @@ public class progressiController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 String codicePr = request.getParameter("nutrizionista");
+                if(codicePr == null) {
+                    valid = false;
+                }
 
+
+                System.out.println("CIAO2");
                 if (!valid) {
-                    throw new IllegalArgumentException("Dati nutrizionista non rispettano i criteri");
+                    throw new IllegalArgumentException("Dati progressi non rispettano i criteri");
                 }
 
                 String descrizione = request.getParameter("descrizione");
@@ -150,12 +156,12 @@ public class progressiController extends HttpServlet {
                 }
 
                 ArrayList<String> fotoPath = new ArrayList<>();
-                salvaFotoProgressi(request, fotoPath, idCliente);
+                //salvaFotoProgressi(request, fotoPath, idCliente);
 
                 Progressi pr = new Progressi(Integer.parseInt(idCliente), fotoPath, descrizione, 0, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
-                ProgressiService ps = new ProgressiService();
+
                 ps.registraProgressi(pr);
-                ps.registraFotoProgressi(fotoPath);
+                //ps.registraFotoProgressi(fotoPath);
                 //Stampa i dati ricevuti nella console del server
                 System.out.println("📩 Dati ricevuti:");
                 System.out.println("ID Cliente: " + idCliente);
@@ -168,7 +174,7 @@ public class progressiController extends HttpServlet {
                 System.out.println("Gamba SX: " + circonferenzaGambaSinistra);
                 System.out.println("Descrizione: " + descrizione);
                 //System.out.println("Foto salvata in: " + file.getAbsolutePath());
-                request.getRequestDispatcher("/WEB-INF/home_cliente.jsp").forward(request, response);
+                //request.getRequestDispatcher("/WEB-INF/home_cliente.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new ServletException(e);

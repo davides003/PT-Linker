@@ -10,6 +10,7 @@ public class ProgressiService {
 
     public boolean registraProgressi(Progressi progressi){
         ProgressiDAO operazioni=new ProgressiDAO();
+        System.out.println("STAMPA SERVICE");
         boolean esito=operazioni.salvaProgressi(progressi);
         return esito;
     }
