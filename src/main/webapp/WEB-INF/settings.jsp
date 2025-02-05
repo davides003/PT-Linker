@@ -112,6 +112,9 @@
 
             // Rende visibile il pulsante Salva
             document.getElementById("btnSalva").style.display = "inline-block";
+
+            // Rende visibile l'inserimento dei file
+            document.getElementById("insert-file").style.display = "inline-block";
         }
 
         function disabilitaModifica() {
@@ -132,6 +135,9 @@
 
             // Nasconde il pulsante Salva
             document.getElementById("btnSalva").style.display = "none";
+
+            // Rende invisibile l'inserimento dei file
+            document.getElementById("insert-file").style.display = "none";
         }
     </script>
 
@@ -215,7 +221,7 @@
     </div>
         <%
             ArrayList<String> list = professionista.getAttestati();
-            for(String percorso : list ){
+            for(String percorso : list){
         %>
         <div>
             <label><%=percorso%></label>
@@ -231,6 +237,10 @@
         <%
             }
         %>
+    <div class="form-group" id="insert-file" style="display: none;">
+        <label for="certificati">Certificati (carica PDF):</label>
+        <input type="file" id="certificati" name="certificati" accept=".pdf" multiple required>
+    </div>
     <%
         }
     %>

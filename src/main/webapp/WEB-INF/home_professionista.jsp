@@ -144,6 +144,14 @@
             align-items: center;
         }
 
+        .icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 10%;
+            /*background-image: url('image/icona-profilo.jpg'); /* Aggiungere l'icona profilo */
+            background-size: cover;
+        }
+
         @media (max-width: 1024px) {
             .search-bar input[type="text"] {
                 width: 70%;
@@ -205,9 +213,9 @@
 <div class="content">
     <div class="left-panel">
         <div class="notification">
-            <img src="chat-placeholder.png" alt="Chat">
+            <img src="<%= request.getContextPath() %>/image/Chat.png" alt="Chat" class="icon">
         </div>
-        <img src="diet-set-placeholder.png" alt="progress management">
+        <img src="<%= request.getContextPath() %>/image/Progresso.png" alt="progress management" class="icon">
     </div>
 
     <div class="table-container">
@@ -224,9 +232,9 @@
     </div>
 
     <div class="right-panel">
-        <img src="balance-placeholder.png" alt="Balance">
-        <img src="certifications-placeholder.png" alt="Certifications">
-        <a href="ProfiloSettingServlet"><img src="settings-placeholder.png" alt="Settings"></a>
+        <img src="<%= request.getContextPath() %>/image/Bilance.png" alt="Balance" class="icon">
+        <img src="<%= request.getContextPath() %>/image/Doc.png" alt="Certifications" class="icon">
+        <a href="ProfiloSettingServlet"><img src="<%= request.getContextPath() %>/image/SettingsImage.png" alt="Settings" class="icon"></a>
     </div>
 </div>
 

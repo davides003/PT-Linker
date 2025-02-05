@@ -5,6 +5,7 @@ import data.entity.Cliente;
 import data.entity.Professionista;
 import data.entity.Utente;
 import data.service.DropboxService;
+import data.service.RegistrazioneService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,6 +43,18 @@ public class ProfiloSettingsServlet extends HttpServlet {
         //Object utente = cliente;
 
         //request.setAttribute("utente" , utente);
+        DropboxService dropboxService = new DropboxService();
+        Utente ut =(Utente) request.getSession().getAttribute("utente");
+        String typeClass = ut.getClass().getTypeName();
+        // Salvataggio dei dati del professionista o cliente
+        if (typeClass.equals("Professionista")) {
+            int idProfessionista = ut.getId();
+            Professionista professionista = (Professionista) ut;
+            for (String location : professionista.getAttestati()){
+                dropboxService.download(dropboxFilePath, location);
+            }
+        }
+
         request.getRequestDispatcher("/WEB-INF/settings.jsp").forward(request, response);
     }
 
@@ -153,7 +166,7 @@ public class ProfiloSettingsServlet extends HttpServlet {
 
             certificatiPercors.add(UPLOAD_DIR + File.separator + "Attestato_Personal_Trainer.pdf");
             DropboxService dr = new DropboxService();
-            dr.uploadFile(certificatiPercors.get(0), "scvc");
+            //dr.uploadFile(certificatiPercors.get(0), "scvc");
 
 
             // Messaggio di successo
