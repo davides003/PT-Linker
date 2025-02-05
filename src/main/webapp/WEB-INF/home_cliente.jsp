@@ -126,39 +126,50 @@
 
 
 <div class="container">
+
     <div class="card">
-        <div>400 x 400</div>
-        <div>MY Personal Trainer</div>
+        <a href="" >
+            <img src="<%= request.getContextPath() %>/image/Personal_Trainer.png" alt="Settings" class="icon" height="auto" width="80%">
+        </a>
+        <p>MY Personal Trainer</p>
     </div>
+
     <div class="card">
-        <div>400 x 400</div>
-        <div>MY Nutritionist</div>
+        <a href="" >
+            <img src="<%= request.getContextPath() %>/image/Nutrizionista.png" alt="Settings" class="icon" height="auto" width="80%">
+        </a>
+        <p>MY Nutritionist</p>
     </div>
-    <a href="settings.jsp">
-        <div class="card" >
-            <div>400 x 400</div>
-            <div>Settings</div>
-        </div>
-    </a>
+
+    <div class="card" >
+        <a href="ProfiloSettingServlet" >
+            <img src="<%= request.getContextPath() %>/image/SettingsImage.png" alt="Settings" class="icon" height="auto" width="80%">
+        </a>
+        <p>Settings</p>
+    </div>
+
     <div class="card">
-        <div>400 x 400</div>
-        <div>Workout</div>
+        <a href="" >
+            <img src="<%= request.getContextPath() %>/image/WorkOut.png" alt="Settings" class="icon" height="auto" width="80%">
+        </a>
+        <p>Workout</p>
     </div>
-    <a href="dieta">
-        <%
-            session.setAttribute("pagina","home_cliente");
-        %>
-        <div class="card">
-            <div>400 x 400</div>
-            <div>Diet</div>
-        </div>
-    </a>
-    <a href="progressiController">
+
     <div class="card">
-        <div>400 x 400</div>
-        <div>My Results</div>
+        <a href="dieta" >
+            <% session.setAttribute("pagina","home_cliente"); %>
+            <img src="<%= request.getContextPath() %>/image/Dieta.png" alt="Settings" class="icon" height="auto" width="80%">
+        </a>
+        <p>Diet</p>
     </div>
-    </a>
+
+    <div class="card">
+        <a href="progressiController" >
+            <img src="<%= request.getContextPath() %>/image/Progresso.png" alt="Settings" class="icon" height="auto" width="80%">
+        </a>
+        <p>My Results</p>
+    </div>
+
 </div>
 </body>
 </html>
