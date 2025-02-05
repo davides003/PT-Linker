@@ -68,7 +68,7 @@ public class ProgressiTest {
         // Parametri con larghezza girovita non valido
         when(request.getParameter("peso")).thenReturn("105");
         when(request.getParameter("girovita")).thenReturn("1300"); // Larghezza girovita non valida
-        when(request.getParameter("braccioDx")).thenReturn("50");
+        when(request.getParameter("braccioDx")).thenReturn("551");
         when(request.getParameter("braccioSx")).thenReturn("50");
         when(request.getParameter("torace")).thenReturn("103");
         when(request.getParameter("gambaDx")).thenReturn("98");
@@ -129,8 +129,8 @@ public class ProgressiTest {
     }
 
     @Test
-    public void testInvalidFoto() throws Exception {
-        // Test caso TC_1.1_6 - Formato foto non valido (Img.xml)
+    public void testInvalidDescrizione() throws Exception {
+        // Test caso TC_1.1_5 - Formato foto non valido (Img.xml)
         HttpSession session = mock(HttpSession.class);
         Cliente cliente = mock(Cliente.class);
         when(cliente.getId()).thenReturn(123);
@@ -145,7 +145,9 @@ public class ProgressiTest {
         when(request.getParameter("torace")).thenReturn("101");
         when(request.getParameter("gambaDx")).thenReturn("99");
         when(request.getParameter("gambaSx")).thenReturn("99");
-        when(request.getParameter("descrizione")).thenReturn("Problema al ginocchio.");
+        when(request.getParameter("descrizione")).thenReturn("Sono ormai due mesi che ho iniziato questo percorso con il mio personal trainer e devo dire che sto notando dei cambiamenti importanti. All’inizio è stato difficile, soprattutto riprendere un ritmo di allenamento costante dopo anni di sedentarietà, ma con il tempo ho acquisito più forza e resistenza. Ho perso circa 3 kg e sento i muscoli più tonici, soprattutto nelle gambe e nell’addome, che erano i miei punti critici. Anche la mia postura è migliorata, grazie agli esercizi per la schiena e il core.\n" +
+                "Mi sento più energico durante la giornata e ho meno dolori alla schiena, che prima mi affliggevano a causa del lavoro sedentario. Ho ancora qualche difficoltà con l’alimentazione, perché non sempre riesco a seguire un regime equilibrato, soprattutto nei momenti di stress, ma sto cercando di migliorare anche su questo aspetto. Il mio personal trainer mi ha aiutato a trovare la giusta motivazione, e ora riesco a spingermi oltre i miei limiti senza arrendermi facilmente.\n" +
+                "Nelle ultime settimane gli allenamenti sono diventati più intensi, ma sto imparando a gestire meglio la fatica e a godermi il processo. Il mio obiettivo è continuare su questa strada, migliorando sia fisicamente che mentalmente. Sono soddisfatto dei risultati ottenuti finora e determinato a raggiungere il mio peso forma e una condizione fisica ottimale.\n");
 
         // Esegui il test e verifica l'eccezione
         assertThrows(ServletException.class, () -> servlet.doPost(request, response));
