@@ -139,87 +139,93 @@ public class RegistrazioneServlet extends HttpServlet {
     }
 
     public void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
-        boolean valid=true;
+        boolean valid = true;
 
         try {
             altezza = Float.parseFloat(request.getParameter("altezza"));
             if (altezza <= 0 || altezza > 200) {
-                valid = false;
+                throw new IllegalArgumentException("Valore altezza non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per altezza", e);
         }
+
         try {
             peso = Float.parseFloat(request.getParameter("peso"));
             if (peso <= 0 || peso > 200) {
-                valid = false;
+                throw new IllegalArgumentException("Valore peso non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per peso", e);
         }
+
         try {
             girovita = Float.parseFloat(request.getParameter("girovita"));
             if (girovita <= 0 || girovita > 200) {
-                valid = false;
+                throw new IllegalArgumentException("Valore girovita non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per girovita", e);
         }
+
         try {
             circonferenzaBraccioDestro = Float.parseFloat(request.getParameter("circonferenza-braccio-destro"));
             if (circonferenzaBraccioDestro <= 0 || circonferenzaBraccioDestro > 100) {
-                valid = false;
+                throw new IllegalArgumentException("Valore circonferenza braccio destro non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per circonferenza braccio destro", e);
         }
+
         try {
             circonferenzaBraccioSinistro = Float.parseFloat(request.getParameter("circonferenza-braccio-sinistro"));
             if (circonferenzaBraccioSinistro <= 0 || circonferenzaBraccioSinistro > 100) {
-                valid = false;
+                throw new IllegalArgumentException("Valore circonferenza braccio sinistro non valido");
             }
-            }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per circonferenza braccio sinistro", e);
         }
+
         try {
             circonferenzaGambaDestra = Float.parseFloat(request.getParameter("circonferenza-gamba-destra"));
             if (circonferenzaGambaDestra <= 0 || circonferenzaGambaDestra > 100) {
-                valid = false;
+                throw new IllegalArgumentException("Valore circonferenza gamba destra non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per circonferenza gamba destra", e);
         }
+
         try {
             circonferenzaGambaSinistra = Float.parseFloat(request.getParameter("circonferenza-gamba-sinistra"));
             if (circonferenzaGambaSinistra <= 0 || circonferenzaGambaSinistra > 100) {
-                valid = false;
+                throw new IllegalArgumentException("Valore circonferenza gamba sinistra non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per circonferenza gamba sinistra", e);
         }
+
         try {
             circonferenzaTorace = Float.parseFloat(request.getParameter("circonferenza-torace"));
             if (circonferenzaTorace <= 0 || circonferenzaTorace > 200) {
-                valid = false;
+                throw new IllegalArgumentException("Valore circonferenza torace non valido");
             }
-        }catch(NumberFormatException e){
-            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato non valido per circonferenza torace", e);
         }
+
         String codicePr = request.getParameter("nutrizionista");
-        if (!valid) {
-            throw new IllegalArgumentException("Data nutrizionista non rispetta i criteri");
-        }
 
         Cliente cliente = new Cliente(nome, cognome, username, email, hashPass, dataNascita, id, altezza, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
 
         boolean esitoReg = rs.registraCliente(cliente);
         if (!esitoReg) {
             System.out.println("FAIL registrazione cliente");
-            throw new RuntimeException("Registrazione Cliente fallita");
-        }else{
+            throw new IllegalArgumentException("Registrazione Cliente fallita");
+        } else {
             rs.abbinaCliente(codicePr);
         }
     }
+
 
     private void salvaCertificati(HttpServletRequest request, ArrayList<String> certificatiPercors, int id) throws ServletException, IOException {
         String UPLOAD_DIR = "documenti/certificati";

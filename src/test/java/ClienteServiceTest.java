@@ -33,194 +33,428 @@ public class ClienteServiceTest {
     private RegistrazioneServlet clienteService;  // La classe da testare
 
     @Test
-    public void testSalvaCliente_UsernameLungo() throws ServletException, IOException {
-        // Configura i parametri corretti per il test valido
-        when(request.getParameter("username")).thenReturn("FitnessWarrior_Transformation2024");
-        when(request.getParameter("email")).thenReturn("marco@gmail.com");
-        when(request.getParameter("password")).thenReturn("12345678");
-        when(request.getParameter("confirm-password")).thenReturn("12345678");
-        when(request.getParameter("name")).thenReturn("marco");
-        when(request.getParameter("surname")).thenReturn("rossi");
-        when(request.getParameter("birthdate")).thenReturn("2000-01-01");
-        when(request.getParameter("role")).thenReturn("cliente");
-        when(request.getParameter("altezza")).thenReturn("100");
-        when(request.getParameter("peso")).thenReturn("88");
-        when(request.getParameter("girovita")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
-        when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
-        when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
-        when(request.getParameter("circonferenza-torace")).thenReturn("2");
-        when(request.getParameter("nutrizionista")).thenReturn("nutrizionista");
+    public void testSalvaCliente_UsernameLungo_FallimentoPrevisto() throws Exception {
 
-        // Crea oggetto Cliente
-        Cliente cliente = new Cliente("marco", "rossi", "FitnessWarrior_Transformation2024", "marco@gmail.com", "12345678", "01/01/2000", 1,
-                Float.parseFloat("100"), Float.parseFloat("88"), Float.parseFloat("55"), Float.parseFloat("55"), Float.parseFloat("100"),
-                Float.parseFloat("90"), Float.parseFloat("90"), Float.parseFloat("2"));
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior_Transformation2024");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
 
-        // Configura il comportamento del servizio
-        doReturn(false).when(regServiceMock).registraCliente(any(Cliente.class));
 
-        // Esegui il metodo
-        clienteService.doPost(request, response);
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
 
-        // Verifica
-        verify(regServiceMock).registraCliente(any(Cliente.class));
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Invalid username", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
     }
-
     @Test
-    public void testSalvaCliente_EmailErrataPasswordCorta() throws ServletException, IOException {
-        // Configura i parametri con email errata e password corta
-        when(request.getParameter("username")).thenReturn("FitnessWarrior");
-        when(request.getParameter("email")).thenReturn("Marco.gmail.com");
-        when(request.getParameter("password")).thenReturn("123456");
-        when(request.getParameter("confirm-password")).thenReturn("123456");
-        when(request.getParameter("name")).thenReturn("marco");
-        when(request.getParameter("surname")).thenReturn("rossi");
-        when(request.getParameter("birthdate")).thenReturn("2000-01-01");
-        when(request.getParameter("role")).thenReturn("cliente");
-        when(request.getParameter("altezza")).thenReturn("100");
-        when(request.getParameter("peso")).thenReturn("88");
-        when(request.getParameter("girovita")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
-        when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
-        when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
-        when(request.getParameter("circonferenza-torace")).thenReturn("2");
-        when(request.getParameter("nutrizionista")).thenReturn("nutrizionista");
+    public void testSalvaCliente_email_FallimentoPrevisto() throws Exception {
 
-        // Configura il comportamento del servizio
-        doReturn(false).when(regServiceMock).registraCliente(any(Cliente.class));
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco.gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
 
-        // Esegui il metodo
-        clienteService.doPost(request, response);
 
-        // Verifica
-        verify(regServiceMock, times(1)).registraCliente(any(Cliente.class));
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("L'e-mail non rispetta i criteri.", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
     }
-
     @Test
-    public void testSalvaCliente_PasswordDifferenteNomeSpeciale() throws ServletException, IOException {
-        // Configura i parametri con password diversa dalla conferma e nome con caratteri speciali
-        when(request.getParameter("username")).thenReturn("FitnessWarrior");
-        when(request.getParameter("email")).thenReturn("marco@gmail.com");
-        when(request.getParameter("password")).thenReturn("12345678");
-        when(request.getParameter("confirm-password")).thenReturn("123456");
-        when(request.getParameter("name")).thenReturn("marco@#");
-        when(request.getParameter("surname")).thenReturn("rossi");
-        when(request.getParameter("birthdate")).thenReturn("2000-01-01");
-        when(request.getParameter("role")).thenReturn("cliente");
-        when(request.getParameter("altezza")).thenReturn("100");
-        when(request.getParameter("peso")).thenReturn("88");
-        when(request.getParameter("girovita")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
-        when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
-        when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
-        when(request.getParameter("circonferenza-torace")).thenReturn("2");
-        when(request.getParameter("nutrizionista")).thenReturn("nutrizionista");
+    public void testSalvaCliente_pass_FallimentoPrevisto() throws Exception {
 
-        // Configura il comportamento del servizio
-        doReturn(false).when(regServiceMock).registraCliente(any(Cliente.class));
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("123456");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
 
-        // Esegui il metodo
-        clienteService.doPost(request, response);
 
-        // Verifica
-        verify(regServiceMock, times(0)).registraCliente(any(Cliente.class));
-    }
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
 
-    @Test
-    public void testSalvaCliente_CognomeSpecialeFormatoDataErrato() throws ServletException, IOException {
-        // Configura i parametri con cognome con caratteri speciali e formato data errato
-        when(request.getParameter("username")).thenReturn("FitnessWarrior");
-        when(request.getParameter("email")).thenReturn("marco@gmail.com");
-        when(request.getParameter("password")).thenReturn("12345678");
-        when(request.getParameter("confirm-password")).thenReturn("12345678");
-        when(request.getParameter("name")).thenReturn("marco");
-        when(request.getParameter("surname")).thenReturn("Rossi##@");
-        when(request.getParameter("birthdate")).thenReturn("01-01-2000");  // Formato errato
-        when(request.getParameter("role")).thenReturn("cliente");
-        when(request.getParameter("altezza")).thenReturn("100");
-        when(request.getParameter("peso")).thenReturn("88");
-        when(request.getParameter("girovita")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
-        when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
-        when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
-        when(request.getParameter("circonferenza-torace")).thenReturn("2");
-        when(request.getParameter("nutrizionista")).thenReturn("nutrizionista");
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("La password non rispetta i criteri di sicurezza.", exception.getMessage());
 
-        // Configura il comportamento del servizio
-        doReturn(false).when(regServiceMock).registraCliente(any(Cliente.class));
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_passconf_FallimentoPrevisto() throws Exception {
 
-        // Esegui il metodo
-        clienteService.doPost(request, response);
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("123456");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
 
-        // Verifica
-        verify(regServiceMock, times(0)).registraCliente(any(Cliente.class));
-    }
 
-    @Test
-    public void testSalvaCliente_PesoNonNumericoOutOfRange() throws ServletException, IOException {
-        // Configura i parametri con peso non numerico e valori fuori range
-        when(request.getParameter("username")).thenReturn("FitnessWarrior");
-        when(request.getParameter("email")).thenReturn("marco@gmail.com");
-        when(request.getParameter("password")).thenReturn("12345678");
-        when(request.getParameter("confirm-password")).thenReturn("12345678");
-        when(request.getParameter("name")).thenReturn("marco");
-        when(request.getParameter("surname")).thenReturn("rossi");
-        when(request.getParameter("birthdate")).thenReturn("2000-01-01");
-        when(request.getParameter("role")).thenReturn("cliente");
-        when(request.getParameter("altezza")).thenReturn("100");
-        when(request.getParameter("peso")).thenReturn("cento");
-        when(request.getParameter("girovita")).thenReturn("8899");
-        when(request.getParameter("circonferenza-braccio-destro")).thenReturn("550");
-        when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
-        when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
-        when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
-        when(request.getParameter("circonferenza-torace")).thenReturn("2");
-        when(request.getParameter("nutrizionista")).thenReturn("nutrizionista");
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
 
-        // Configura il comportamento del servizio
-        doReturn(false).when(regServiceMock).registraCliente(any(Cliente.class));
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("La password non rispetta i criteri di sicurezza.", exception.getMessage());
 
-        // Esegui il metodo
-        clienteService.doPost(request, response);
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_nome_FallimentoPrevisto() throws Exception {
 
-        // Verifica
-        verify(regServiceMock, times(0)).registraCliente(any(Cliente.class));
-    }
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco@@°");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
 
-    @Test
-    public void testSalvaCliente_CirconferenzeLettere() throws ServletException, IOException {
-        // Configura i parametri con circonferenze espresse in lettere
-        when(request.getParameter("username")).thenReturn("FitnessWarrior");
-        when(request.getParameter("email")).thenReturn("marco@gmail.com");
-        when(request.getParameter("password")).thenReturn("12345678");
-        when(request.getParameter("confirm-password")).thenReturn("12345678");
-        when(request.getParameter("name")).thenReturn("marco");
-        when(request.getParameter("surname")).thenReturn("rossi");
-        when(request.getParameter("birthdate")).thenReturn("2000-01-01");
-        when(request.getParameter("role")).thenReturn("cliente");
-        when(request.getParameter("altezza")).thenReturn("100");
-        when(request.getParameter("peso")).thenReturn("88");
-        when(request.getParameter("girovita")).thenReturn("55");
-        when(request.getParameter("circonferenza-braccio-destro")).thenReturn("cento");
-        when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("novanta");
-        when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
-        when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
-        when(request.getParameter("circonferenza-torace")).thenReturn("2");
-        when(request.getParameter("nutrizionista")).thenReturn("nutrizionista");
 
-        // Configura il comportamento del servizio
-        doReturn(false).when(regServiceMock).registraCliente(any(Cliente.class));
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
 
-        // Esegui il metodo
-        clienteService.doPost(request, response);
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Nome/Cognome non rispetta i criteri.", exception.getMessage());
 
-        // Verifica
-        verify(regServiceMock, times(0)).registraCliente(any(Cliente.class));
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_cogn_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi@@#");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Nome/Cognome non rispetta i criteri.", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_data_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000/01/01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Data nascita non rispetta i criteri.", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_peso_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("cento");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Formato non valido per peso", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_girov_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("8800");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Valore girovita non valido", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_brdx_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("550");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Valore circonferenza braccio destro non valido", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_brsx_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("5500");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("2");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Valore circonferenza braccio sinistro non valido", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_circtor_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("1000");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Valore circonferenza torace non valido", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_gbdx_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("900");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("90");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Valore circonferenza gamba destra non valido", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
+    } @Test
+    public void testSalvaCliente_gbsx_FallimentoPrevisto() throws Exception {
+
+        lenient().when(request.getParameter("username")).thenReturn("FitnessWarrior");
+        lenient().when(request.getParameter("email")).thenReturn("Marco@gmail.com");
+        lenient().when(request.getParameter("password")).thenReturn("12345678");
+        lenient().when(request.getParameter("confirm-password")).thenReturn("12345678");
+        lenient().when(request.getParameter("name")).thenReturn("marco");
+        lenient().when(request.getParameter("surname")).thenReturn("rossi");
+        lenient().when(request.getParameter("birthdate")).thenReturn("2000-01-01");
+        lenient().when(request.getParameter("role")).thenReturn("cliente");
+        lenient().when(request.getParameter("altezza")).thenReturn("100");
+        lenient().when(request.getParameter("peso")).thenReturn("88");
+        lenient().when(request.getParameter("girovita")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-destro")).thenReturn("55");
+        lenient().when(request.getParameter("circonferenza-braccio-sinistro")).thenReturn("100");
+        lenient().when(request.getParameter("circonferenza-torace")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-destra")).thenReturn("90");
+        lenient().when(request.getParameter("circonferenza-gamba-sinistra")).thenReturn("900");
+
+
+        // Verifica che venga lanciata un'eccezione per username troppo lungo
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> clienteService.doPost(request, response));
+
+        // Controlla che il messaggio dell'eccezione sia quello atteso
+        assertEquals("Valore circonferenza gamba sinistra non valido", exception.getMessage());
+
+        // Verifica che il servizio di registrazione NON venga mai chiamato (dato che l'input è errato)
+        verify(regServiceMock, never()).registraCliente(any(Cliente.class));
     }
 
     @Test
