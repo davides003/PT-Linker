@@ -138,8 +138,10 @@ public class ProgressiDAO {
             ArrayList<String> percorsiFoto = getPercorsiFoto(codice);
             DropboxService dbs= new DropboxService();
             for (String percorso: percorsiFoto) {
+                System.out.println("RITORNO");
                 System.out.println("RITORNO DROPBOXSERVICE "+dbs.download("/PT_LINKER/Progressi_Foto", percorso));
             }
+            System.out.println("DIMENSIONE PERCORSI "+percorsiFoto.size());
             String descrizione = campi[1];
             int idProgresso = codice;
                     //Integer.parseInt(campi[2]);
@@ -153,7 +155,7 @@ public class ProgressiDAO {
 
             for(int i=0;i<percorsiFoto.size();i++){
                 String percorso = percorsiFoto.get(i);
-                percorso = percorso.substring(percorso.indexOf("image"));
+                percorso = percorso.substring(percorso.indexOf("documenti"));
                 System.out.println(percorso);
                 percorsiFoto.set(i,percorso);
             }

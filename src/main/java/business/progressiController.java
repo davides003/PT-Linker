@@ -50,6 +50,7 @@ public class progressiController extends HttpServlet {
             System.out.println(session.getAttribute("clienteId"));
             try {
                 int idcliente = Integer.parseInt((String) session.getAttribute("clienteId"));
+                System.out.println("ID CLIENTE "+idcliente);
                 Progressi progressi = ps.getProgressi(idcliente);
 
                 System.out.println("SESSIONE APERTA");
@@ -142,10 +143,17 @@ public class progressiController extends HttpServlet {
                 }catch(NumberFormatException e){
                     throw new RuntimeException(e);
                 }
-                String codicePr = request.getParameter("nutrizionista");
-                if(codicePr == null) {
+                //String codicePr = request.getParameter("nutrizionista");
+                /*if(codicePr == null) {
                     valid = false;
-                }
+                }*/
+
+                System.out.println("peso "+peso+" girovita "+girovita+"" +
+                        " circonferenza "+circonferenzaBraccioDestro+""+"" +
+                        " circonferenza "+circonferenzaBraccioSinistro+""+"" +
+                        " circonferenza "+circonferenzaGambaDestra+""+"" +
+                        " circonferenza "+circonferenzaGambaSinistra+"" +
+                        " torace "+circonferenzaTorace+"");
 
 
                 System.out.println("CIAO2");
@@ -164,12 +172,12 @@ public class progressiController extends HttpServlet {
                 }
 
                 ArrayList<String> fotoPath = new ArrayList<>();
-                //salvaFotoProgressi(request, fotoPath, idCliente);
+                salvaFotoProgressi(request, fotoPath, idCliente);
 
                 Progressi pr = new Progressi(Integer.parseInt(idCliente), fotoPath, descrizione, 0, peso, girovita, circonferenzaBraccioDestro, circonferenzaBraccioSinistro, circonferenzaTorace, circonferenzaGambaDestra, circonferenzaGambaSinistra);
 
                 ps.registraProgressi(pr);
-                //ps.registraFotoProgressi(fotoPath);
+                ps.registraFotoProgressi(fotoPath);
                 //Stampa i dati ricevuti nella console del server
                 System.out.println("📩 Dati ricevuti:");
                 System.out.println("ID Cliente: " + idCliente);
@@ -182,7 +190,7 @@ public class progressiController extends HttpServlet {
                 System.out.println("Gamba SX: " + circonferenzaGambaSinistra);
                 System.out.println("Descrizione: " + descrizione);
                 //System.out.println("Foto salvata in: " + file.getAbsolutePath());
-                //request.getRequestDispatcher("/WEB-INF/home_cliente.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/home_cliente.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new ServletException(e);
@@ -194,7 +202,7 @@ public class progressiController extends HttpServlet {
     }
 
     private void salvaFotoProgressi(HttpServletRequest request, ArrayList<String> fotoPercors, String id) throws ServletException, IOException {
-        String UPLOAD_DIR = "image/Foto_Progressi";
+        String UPLOAD_DIR = "documenti/Foto_Progressi";
 
         // Ottieni il percorso assoluto della directory "certificati"
         String uploadPath = getServletContext().getRealPath("") + UPLOAD_DIR;

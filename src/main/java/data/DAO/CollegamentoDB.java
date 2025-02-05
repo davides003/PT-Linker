@@ -16,7 +16,7 @@ public class CollegamentoDB {
             p.setUrl("jdbc:mysql://localhost:3306/PT_LINKER?serverTimezone=" + TimeZone.getDefault().getID());
             p.setDriverClassName("com.mysql.cj.jdbc.Driver");
             p.setUsername("root");
-            p.setPassword("17072002");
+            p.setPassword("Filip2004!");
             p.setMaxActive(100);
             p.setInitialSize(10);
             p.setMinIdle(10);

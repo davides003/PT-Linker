@@ -115,9 +115,9 @@ public class RegistrazioneServlet extends HttpServlet {
                 int idUltimoProfessionista= rs.getIdProfessionista();
                 // Caricamento dei certificati se ruolo professionista
                 System.out.println("prima di chiamare salvaCertificati");
-                //salvaCertificati(request, certificatiPercorsi,idUltimoProfessionista+1);
+                salvaCertificati(request, certificatiPercorsi,idUltimoProfessionista+1);
                 DropboxService dbS= new DropboxService();
-                //if (!certificatiPercorsi.isEmpty()) {
+                if (!certificatiPercorsi.isEmpty()) {
                     System.out.println("if empyt certificati");
                     Professionista pr=new Professionista(nome, cognome, username, email, hashPass, dataNascita, idUltimoProfessionista+1,certificatiPercorsi,false, ruolo);
                     if(!rs.registraProfessionista(pr)){
@@ -125,17 +125,17 @@ public class RegistrazioneServlet extends HttpServlet {
                     }
                     rs.registraCertificati(certificatiPercorsi);
                     System.out.println("File PDF caricati con successo!");
-                /*} else {
+                } else {
                     System.out.println("Nessun file PDF caricato.");
-                }*/
+                }
             }
         } else {
            throw new RuntimeException("Utente già registrato");
         }
 
         // Forward alla pagina di login
-        //RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login.jsp");
-        //dispatcher.forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login.jsp");
+        dispatcher.forward(request, response);
     }
 
     public void salvaCliente(HttpServletRequest request, int id, String nome, String cognome, String username, String email, String hashPass, String dataNascita, Float altezza, Float peso, Float girovita, Float circonferenzaBraccioDestro, Float circonferenzaBraccioSinistro, Float circonferenzaTorace, Float circonferenzaGambaDestra, Float circonferenzaGambaSinistra) {
