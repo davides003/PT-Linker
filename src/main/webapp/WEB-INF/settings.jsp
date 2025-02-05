@@ -39,11 +39,13 @@
         }
 
         .container {
+            padding-top: 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-            justify-content: center;
+            gap: 25px;
+            padding-left: 10%;
+            justify-content: space-between;
+            padding-right: 10%;
         }
 
         .card {
@@ -62,9 +64,72 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .socet{
+            display: grid;
+
+        }
+
+        .socet label{
+            text-align: center;
+            font-size: 24px; /* Imposta la dimensione del testo */
+            font-weight: bold; /* Rende il testo in grassetto (opzionale) */
+        }
+        .socet input{
+            text-align: center;
+            border: none;
+            padding: 10px;
+            font-size: 15px;
+            color: #333; /* Imposta il colore del testo (opzionale) */
+        }
+
         .card img {
             max-width: 100%;
             max-height: 80%;
+        }
+
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .logout-container form {
+            margin: 0;
+        }
+
+        .logout-container .logout-button {
+            background-color: #ff3333; /* Colore del bottone */
+            color: white;
+            border: none;
+            border-radius: 20px; /* Bordi arrotondati */
+            padding: 10px 20px; /* Spaziatura interna */
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer; /* Cambia il cursore */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animazione su hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombra */
+        }
+
+        .logout-container .logout-button:hover {
+            background-color: #e62e2e; /* Colore al passaggio del mouse */
+            transform: scale(1.05); /* Leggero ingrandimento */
+        }
+
+        .logout-container .logout-button:active {
+            background-color: #cc2929; /* Colore quando cliccato */
+            transform: scale(0.98); /* Effetto pressione */
         }
 
         @media (max-width: 1024px) {
@@ -124,7 +189,7 @@
             // Disabilita la modifica e ripristina lo stile
             inputs.forEach(input => {
                 input.readOnly = true; // Aggiunge il readonly
-                input.style.border = "1px solid #ccc"; // Ripristina lo stile
+                input.style.border = "0px solid #ccc"; // Ripristina lo stile
             });
 
             // Rende invisibile il pulsante Modifica
@@ -144,9 +209,12 @@
 </head>
 <body>
     <div class="header">
-        <img src="logo-placeholder.png" alt="Logo">
         <h1>PT-Linker</h1>
-        <img src="profile-placeholder.png" alt="Profile">
+        <div class="logout-container">
+            <form action="Logout" method="post">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+        </div>
     </div>
 
 <form action="ProfiloSettingServlet" method="post">
@@ -154,23 +222,23 @@
     <%
         Utente ut = (Utente) request.getSession().getAttribute("utente");
     %>
-    <div>
+    <div class="socet">
         <label typeof="Nome">Nome</label>
         <input type="text" name="Nome" value="<%= ut.getNome() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label typeof="Cognome">Cognome</label>
         <input type="text" name="Cognome" value="<%= ut.getCognome() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label typeof="Username">Username</label>
         <input type="text" name="Username" value="<%= ut.getUsername() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label typeof="E-Mail">E-Mail</label>
         <input type="text" name="E-Mail" value="<%= ut.getEmail() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label typeof="nascita">Data di Nascita</label>
         <input type="text" name="nascita" value="<%= ut.getDataDiNascita() %>" readonly>
     </div>
@@ -179,35 +247,35 @@
     if(className.equals("Cliente")){
         Cliente cliente = (Cliente) ut;
     %>
-    <div>
-        <label for="Altezza">Altezza</label>
+    <div class="socet">
+        <label for="Altezza" class="socet">Altezza</label>
         <input type="text" id="Altezza" name="Altezza" value="<%= cliente.getAltezza() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="Peso">Peso</label>
         <input type="text" id="Peso" name="Peso" value="<%= cliente.getPeso() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="larghezzaGirovita">Larghezza Girovita</label>
         <input type="text" id="larghezzaGirovita" name="larghezzaGirovita" value="<%= cliente.getLarghezzaGirovita() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="circonferenzaBracciaDx">Circonferenza Braccia Destro</label>
         <input type="text" id="circonferenzaBracciaDx" name="circonferenzaBracciaDx" value="<%= cliente.getCirconferenzaBracciaDx() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="circonferenzaBracciaSx">Circonferenza Braccia Sinistro</label>
         <input type="text" id="circonferenzaBracciaSx" name="circonferenzaBracciaSx" value="<%= cliente.getCirconferenzaBracciaSx() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="circonferenzaTorace">Circonferenza Torace</label>
         <input type="text" id="circonferenzaTorace" name="circonferenzaTorace" value="<%= cliente.getCirconferenzaTorace() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="circonferenzaGambaDx">Circonferenza Gamba Destra</label>
         <input type="text" id="circonferenzaGambaDx" name="circonferenzaGambaDx" value="<%= cliente.getCirconferenzaGambaDx() %>" readonly>
     </div>
-    <div>
+    <div class="socet">
         <label for="circonferenzaGambaSx">Circonferenza Gamba Sinistra</label>
         <input type="text" id="circonferenzaGambaSx" name="circonferenzaGambaSx" value="<%= cliente.getCirconferenzaGambaSx() %>" readonly>
     </div>
@@ -216,15 +284,16 @@
     }else if(className.equals("Professionista")){
         Professionista professionista = (Professionista) ut;
 %>
-    <div><label typeof="Tipo">Tipo</label>
+    <div class="socet">
+        <label typeof="Tipo">Tipo</label>
         <input type="text" id="Tipo" name="Tipo" value="<%= professionista.getTipo() %>" readonly>
     </div>
         <%
             ArrayList<String> list = professionista.getAttestati();
             for(String percorso : list){
         %>
-        <div>
-            <label><%=percorso%></label>
+        <div class="socet">
+            <!--<label><%=percorso%></label> -->
             <%
                 percorso = percorso.substring(percorso.indexOf("documenti"));
             %>
@@ -244,15 +313,16 @@
     <%
         }
     %>
-
+</div>
+<div style="text-align: center">
     <!-- Bottone per abilitare e salvare -->
     <div>
-        <button type="button" id="btnDisMod" onclick="disabilitaModifica()" style="display: none;">Disabilita Modifica</button>
-        <button type="button" id="btnMod" onclick="abilitaModifica()">Modifica</button>
-        <button type="submit" id="btnSalva" style="display: none;">Salva</button>
+        <button type="button" id="btnDisMod" onclick="disabilitaModifica()" class="btn" style="display: none;">Disabilita Modifica</button>
+        <button type="button" id="btnMod" onclick="abilitaModifica()" class="btn">Modifica</button>
+        <button type="submit" id="btnSalva" class="btn" style="display: none;">Salva</button>
     </div>
-
 </div>
+
 </form>
 
 </body>
