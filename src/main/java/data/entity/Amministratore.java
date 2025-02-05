@@ -9,7 +9,6 @@ public class Amministratore{
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.username=username;
     }

@@ -156,11 +156,11 @@ public class ProgressiTest {
         ProgressiService ps = mock(ProgressiService.class);
         HttpSession session = mock(HttpSession.class);
         Cliente cliente = mock(Cliente.class);
+
         when(cliente.getId()).thenReturn(1);
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("utente")).thenReturn(cliente);
 
-        // Parametri validi
         when(request.getParameter("peso")).thenReturn("80");
         when(request.getParameter("girovita")).thenReturn("100");
         when(request.getParameter("braccioDx")).thenReturn("50");
@@ -170,12 +170,15 @@ public class ProgressiTest {
         when(request.getParameter("gambaSx")).thenReturn("99");
         when(request.getParameter("descrizione")).thenReturn("Problema al ginocchio.");
         when(request.getParameter("nutrizionista")).thenReturn("2");
-        //when(request.getParameter("foto")).thenReturn("Img.jpg");
 
-        // Esegui il test e verifica che l'inserimento vada a buon fine
+        // Inietta il mock nella servlet
+        servlet.setProgressiService(ps);
+
+        // Esegui la servlet
         servlet.doPost(request, response);
 
-        // Verifica che il mock venga effettivamente invocato
-        Mockito.verify(ps).registraProgressi(any(data.entity.Progressi.class));
+        // Verifica che il metodo venga chiamato
+        verify(ps, times(1)).registraProgressi(any(Progressi.class));
     }
+
 }

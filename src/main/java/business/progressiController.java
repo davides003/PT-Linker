@@ -31,6 +31,14 @@ public class progressiController extends HttpServlet {
     private ProgressiService ps = new ProgressiService();;
     // Percorso dove salvare le immagini
     private static final String UPLOAD_DIRECTORY = "foto_clienti";
+// per testing
+    public progressiController() {
+        this.ps = new ProgressiService(); // Istanza di default
+    }
+
+    public void setProgressiService(ProgressiService ps) {
+        this.ps = ps;
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Utente u= (Utente) request.getSession().getAttribute("utente");
